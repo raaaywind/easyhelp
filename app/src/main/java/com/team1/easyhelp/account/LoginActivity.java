@@ -30,8 +30,6 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity {
 
     protected ImageButton loginButton;
-    private Button findPasswordButton;
-    private Button registerButton;
 
     private EditText accountEdit;
     private EditText passwordEdit;
@@ -54,8 +52,6 @@ public class LoginActivity extends AppCompatActivity {
     // 初始化界面布局以及动画效果
     public void initial_layout() {
         loginButton = (ImageButton) findViewById(R.id.imageButton);
-        findPasswordButton = (Button) findViewById(R.id.findPasswordButton);
-        registerButton = (Button) findViewById(R.id.registerButton);
 
         // 设置按下以后按钮背景改变
         loginButton.setOnTouchListener(new View.OnTouchListener() {
@@ -68,26 +64,6 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
         });
-//        findPasswordButton.setOnTouchListener(new View.OnTouchListener() {
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                    findPasswordButton.setTextColor(0xEEEEEE);
-//                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-//                    findPasswordButton.setTextColor(0xB2DFDB);
-//                }
-//                return false;
-//            }
-//        });
-//        registerButton.setOnTouchListener(new View.OnTouchListener() {
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                    registerButton.setTextColor(0xEEEEEE);
-//                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-//                    registerButton.setTextColor(0xB2DFDB);
-//                }
-//                return false;
-//            }
-//        });
     }
 
     // 查询登录状态，如果已有登陆的user_id，则跳过登陆验证界面，去到主页
@@ -112,11 +88,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void register(View view) {
-
+        Intent it = new Intent(this, RegisterActivity.class);
+        startActivity(it);
     }
 
     public void findPassword(View view) {
-
+        Intent it = new Intent(this, FindPasswordActivity.class);
+        startActivity(it);
     }
 
     @Override

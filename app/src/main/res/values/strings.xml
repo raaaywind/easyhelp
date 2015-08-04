@@ -5,4 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_actionBar_login">LOGIN</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_find_password">FindPasswordActivity</string>
 </resources>

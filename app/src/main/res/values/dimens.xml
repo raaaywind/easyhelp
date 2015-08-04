@@ -4,4 +4,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="editText_height">44dp</dimen>
     <dimen name="editText_width">240dp</dimen>
+    <dimen name="editText_width_long">280dp</dimen>
 </resources>
