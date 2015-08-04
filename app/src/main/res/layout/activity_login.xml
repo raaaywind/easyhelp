@@ -1,0 +1,103 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@drawable/login_backgroud" tools:context=".LoginActivity">
+
+    <ImageView
+        android:id="@+id/app_icon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="68dp"
+        android:background="@drawable/avatar_shape"
+        android:layout_marginBottom="36dp"
+        android:src="@drawable/ic_account_circle_grey_200_48dp"/>
+
+    <EditText
+        android:id="@+id/usertext"
+        android:layout_width="@dimen/editText_width"
+        android:layout_height="@dimen/editText_height"
+        android:background="@drawable/login_edit_text_shape"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="44dp"
+        android:layout_below="@+id/app_icon"
+        android:layout_alignEnd="@+id/app_icon"
+        android:hint="User ID"
+        android:textColorHint="#86aa9f"
+        android:textColor="#fdaa90"
+        android:textStyle="normal"
+        android:phoneNumber="true" />
+
+    <EditText
+        android:id="@+id/passwordtext"
+        android:layout_width="@dimen/editText_width"
+        android:layout_height="@dimen/editText_height"
+        android:background="@drawable/login_edit_text_shape"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="23dp"
+        android:layout_below="@+id/usertext"
+        android:layout_alignEnd="@+id/app_icon"
+        android:hint="Password"
+        android:textColorHint="#86aa9f"
+        android:textColor="#fdaa90"
+        android:textStyle="normal"
+        android:password="true" />
+
+    <ImageButton
+        android:layout_width="64dp"
+        android:layout_height="160dp"
+        android:layout_marginRight="30dp"
+        android:layout_alignBottom="@+id/passwordtext"
+        android:layout_alignTop="@+id/usertext"
+        android:src="@drawable/ic_send_teal_100_36dp"
+        android:background="@drawable/login_button_actionup_shape"
+        android:id="@+id/imageButton"
+        android:onClick="Login"
+        android:layout_alignParentRight="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_small_button_actionup_shape"
+        android:text="register"
+        android:textSize="12sp"
+        android:textColor="#FF86AA9F"
+        android:id="@+id/registerButton"
+        android:layout_alignTop="@+id/findPasswordButton"
+        android:layout_alignEnd="@+id/imageButton"
+        android:onClick="register"/>
+
+    <Button
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_small_button_actionup_shape"
+        android:text="find password"
+        android:textSize="12sp"
+        android:textColor="#FF86AA9F"
+        android:id="@+id/findPasswordButton"
+        android:layout_marginBottom="44dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/passwordtext"
+        android:onClick="findPassword"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_accessibility_deep_orange_200_24dp"
+        android:layout_alignBottom="@+id/usertext"
+        android:layout_alignRight="@+id/usertext"
+        android:layout_margin="10dp"
+        android:id="@+id/imageView2" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_lock_open_deep_orange_200_24dp"
+        android:layout_alignBottom="@+id/passwordtext"
+        android:layout_alignRight="@+id/passwordtext"
+        android:layout_margin="10dp"
+        android:id="@+id/imageView" />
+
+</RelativeLayout>
