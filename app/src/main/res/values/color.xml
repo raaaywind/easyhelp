@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="MainBackgroud">#009688</color>
+    <color name="MainBackgroud">#00bcd4</color>
     <color name="TitleTextColor">#fdfdfe</color>
     <color name="TabTextColor_selected">#fdfdfe</color>
-    <color name="TabTextColor_notselect">#75beb7</color>
-    <color name="ListItemBackgroud">#b2dfdb</color>
+    <color name="TabTextColor_unselected">#75beb7</color>
+    <color name="ListItemBackgroud">#b2ebf2</color>
+
+    <color name="fabMainColor"></color>
+    <color name="menuTextColor_selected">#000001</color>
+    <color name="menuTextColor_unselected">#212121</color>
 
 </resources>
