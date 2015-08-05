@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">easyhelp</string>
+    <string name="app_name">易助</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -9,4 +9,9 @@
     <string name="title_activity_find_password">FindPasswordActivity</string>
     <string name="title_activity_set_password">setPasswordActivity</string>
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
+    <string name="title_activity_test">testActivity</string>
+    <string name="title_activity_mapdemo">MapdemoActivity</string>
+    <string name="title_activity_map_test">mapTestActivity</string>
+    <string name="title_activity_base_map">BaseMapActivity</string>
+    <string name="title_activity_sosmap">SOSMapActivity</string>
 </resources>

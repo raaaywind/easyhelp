@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.team1.easyhelp.R;
 import com.team1.easyhelp.home.HomeActivity;
+import com.team1.easyhelp.testActivity;
 import com.team1.easyhelp.utils.MD5;
 import com.team1.easyhelp.utils.RequestHandler;
 
@@ -73,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         sharedPref = this.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         int id = sharedPref.getInt("user_id", -1);
         if (id != -1) {
-            Intent it = new Intent(this, HomeActivity.class);
+            Intent it = new Intent(this, testActivity.class);
             startActivity(it);
             LoginActivity.this.finish();
         }
@@ -217,7 +218,7 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("nickname", jsonObject.getString("nickname"));
                                 editor.commit();
 
-                                Intent it = new Intent(LoginActivity.this, HomeActivity.class);
+                                Intent it = new Intent(LoginActivity.this, testActivity.class);
                                 startActivity(it);
                                 LoginActivity.this.finish();
                             }

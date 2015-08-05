@@ -41,7 +41,7 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="xDO3hA5xIb6dwLnHvPlD5yC9" />
+            android:value="HwE4mTBP2IE992xORsS3VmuG" />
 
         <activity
             android:name=".account.LoginActivity"
@@ -71,6 +71,18 @@
         <activity
             android:name=".account.ResetPasswordActivity"
             android:label="@string/title_activity_reset_password" >
+        </activity>
+        <activity
+            android:name=".testActivity"
+            android:label="@string/title_activity_test" >
+        </activity>
+        <activity
+            android:name=".map.BaseMapActivity"
+            android:label="@string/title_activity_base_map" >
+        </activity>
+        <activity
+            android:name=".send.SOSMapActivity"
+            android:label="@string/title_activity_sosmap" >
         </activity>
     </application>
 
