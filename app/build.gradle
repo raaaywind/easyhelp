@@ -21,8 +21,8 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':circleloadinglibrary')
-    compile project(':fablibrary')
+    compile project(':AnimatedCircleLoadinglibrary')
+    compile project(':FABbuttonlibrary')
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.github.wangjiegulu:AndroidInject:1.0.6'
     compile 'com.github.wangjiegulu:AndroidBucket:1.0.4'

@@ -10,9 +10,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/AnimatedCircleLoadinglibrary" />
+            <option value="$PROJECT_DIR$/FABbuttonlibrary" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/circleloadinglibrary" />
-            <option value="$PROJECT_DIR$/fablibrary" />
           </set>
         </option>
       </GradleProjectSettings>
