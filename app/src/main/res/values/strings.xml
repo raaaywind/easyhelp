@@ -7,4 +7,5 @@
     <string name="title_actionBar_login">LOGIN</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_find_password">FindPasswordActivity</string>
+    <string name="title_activity_set_password">setPasswordActivity</string>
 </resources>

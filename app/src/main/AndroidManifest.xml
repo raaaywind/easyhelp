@@ -65,6 +65,10 @@
             android:name=".account.FindPasswordActivity"
             android:label="@string/title_activity_find_password" >
         </activity>
+        <activity
+            android:name=".account.setPasswordActivity"
+            android:label="@string/title_activity_set_password" >
+        </activity>
     </application>
 
 </manifest>
