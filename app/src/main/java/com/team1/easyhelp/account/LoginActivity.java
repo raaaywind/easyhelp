@@ -57,9 +57,11 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    loginButton.setBackground(getResources().getDrawable(R.drawable.login_button_actiondown_shape));
+                    loginButton.setBackground(getResources().
+                            getDrawable(R.drawable.login_button_actiondown_shape));
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    loginButton.setBackground(getResources().getDrawable(R.drawable.login_button_actionup_shape));
+                    loginButton.setBackground(getResources().
+                            getDrawable(R.drawable.login_button_actionup_shape));
                 }
                 return false;
             }
