@@ -25,7 +25,6 @@ import org.json.JSONObject;
 
 import cn.smssdk.SMSSDK;
 import cn.smssdk.EventHandler;
-import cn.smssdk.utils.SMSLog;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -175,7 +174,7 @@ public class RegisterActivity extends AppCompatActivity {
                         String message = RequestHandler.sendPostRequest(
                                 "http://120.24.208.130:1501/account/login", jsonString
                         );
-                        if (message == "false") {
+                        if (message.equals("false")) {
                             Toast.makeText(getApplicationContext(), "连接失败，请检查网络是否连接并重试",
                                     Toast.LENGTH_SHORT).show();
                             return;
@@ -243,8 +242,6 @@ public class RegisterActivity extends AppCompatActivity {
             submitButton.setBackground(getResources().
                     getDrawable(R.drawable.login_button_actionup_shape));
             submitButton.setText("提交验证");
-        } else {
-            return;
         }
     }
 
@@ -267,13 +264,13 @@ public class RegisterActivity extends AppCompatActivity {
      * 判断一个字符串的位数
      * @param str
      * @param length
-     * @return
+     * @return boolean
      */
     public static boolean isMatchLength(String str, int length) {
         if (str.isEmpty()) {
             return false;
         } else {
-            return str.length() == length ? true : false;
+            return str.length() == length;
         }
     }
 
@@ -281,16 +278,13 @@ public class RegisterActivity extends AppCompatActivity {
      * 验证手机格式
      */
     public static boolean isMobileNO(String mobileNums) {
-		/*
+        /*
 		 * 移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188
 		 * 联通：130、131、132、152、155、156、185、186 电信：133、153、180、189、（1349卫通）
 		 * 总结起来就是第一位必定为1，第二位必定为3或5或8，其他位置的可以为0-9
 		 */
         String telRegex = "[1][358]\\d{9}";// "[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，"\\d{9}"代表后面是可以是0～9的数字，有9位。
-        if (TextUtils.isEmpty(mobileNums))
-            return false;
-        else
-            return mobileNums.matches(telRegex);
+        return !TextUtils.isEmpty(mobileNums) && mobileNums.matches(telRegex);
     }
 
     /**
@@ -330,18 +324,6 @@ public class RegisterActivity extends AppCompatActivity {
                     requestCodeEdit.clearFocus();
                     Toast.makeText(getApplicationContext(), "验证码错误，请重新获取验证码",
                             Toast.LENGTH_SHORT).show();
-
-//                    Throwable throwable = (Throwable) data;
-//                    try {
-//                        JSONObject object = new JSONObject(throwable.getMessage());
-//                        String des = object.optString("detail");
-//                        if (!TextUtils.isEmpty(des)) {
-//                            Toast.makeText(getApplicationContext(), des, Toast.LENGTH_SHORT).show();
-//                            return;
-//                        }
-//                    } catch (JSONException e) {
-//                        SMSLog.getInstance().w(e);
-//                    }
                 }
             }
         }

@@ -18,7 +18,7 @@ import com.team1.easyhelp.utils.RequestHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class setPasswordActivity extends AppCompatActivity {
+public class ResetPasswordActivity extends AppCompatActivity {
 
     private EditText passwordEdit;
     private EditText passwordRepeatEdit;
@@ -31,7 +31,7 @@ public class setPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_password);
+        setContentView(R.layout.activity_reset_password);
 
         initial();
     }
@@ -39,7 +39,7 @@ public class setPasswordActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_set_password, menu);
+        getMenuInflater().inflate(R.menu.menu_reset_password, menu);
         return true;
     }
 
@@ -84,20 +84,20 @@ public class setPasswordActivity extends AppCompatActivity {
     // 提交修改或创建的密码
     public void submitPasswordClick(View view) {
         Intent intent = getIntent();
-        account = intent.getStringExtra(RegisterActivity.EXTRA_MESSAGE);
+        account = intent.getStringExtra(FindPasswordActivity.EXTRA_MESSAGE);
 
         password = passwordEdit.getText().toString();
         password2 = passwordRepeatEdit.getText().toString();
 
-        new Thread(setPasswordRunnable).start();
+        new Thread(resetPasswordRunnable).start();
     }
 
-    Runnable setPasswordRunnable = new Runnable() {
+    Runnable resetPasswordRunnable = new Runnable() {
         @Override
         public void run() {
             String message;
             String jsonString;
-
+            String salt;
             if (password.isEmpty() || password2.isEmpty()) {
                 runOnUiThread(new Runnable() {
                     @Override
@@ -127,18 +127,18 @@ public class setPasswordActivity extends AppCompatActivity {
                     });
                     return;
                 }
-                password2 = MD5.MD5_encode(password, "");
+
                 jsonString = "{" +
                         "\"account\":\"" + account + "\"," +
-                        "\"password\":\"" + password2 + "\"" + "}";
+                        "\"password\":\"\"" +  "}";
                 message = RequestHandler.sendPostRequest(
-                        "http://120.24.208.130:1501/account/regist",jsonString);
+                        "http://120.24.208.130:1501/account/login", jsonString);
                 if (message.equals("false")) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(),
-                                    "提交失败，请检查网络是否连接并重试", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "连接失败，请检查网络是否连接并重试",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     });
                     return;
@@ -150,16 +150,52 @@ public class setPasswordActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "注册失败",
+                                Toast.makeText(getApplicationContext(), "用户名未注册",
                                         Toast.LENGTH_SHORT).show();
                             }
                         });
                         return;
-                    } else {
-                        Toast.makeText(getApplicationContext(), "注册成功",
-                                Toast.LENGTH_SHORT).show();
-                        setPasswordActivity.this.finish();
                     }
+                    salt = jO.getString("salt");
+                    password2 = MD5.MD5_encode(MD5.MD5_encode(password, ""), salt);
+                    jsonString = "{" +
+                            "\"account\":\"" + account + "\"," +
+                            "\"password\":\"" + password2 + "\"," +
+                            "\"salt\":\"" + salt + "\" " +  "}";
+                    message = RequestHandler.sendPostRequest(
+                            "http://120.24.208.130:1501/account/modify_password", jsonString);
+                    if (message.equals("false")) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "连接失败，请检查网络是否连接并重试",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        return;
+                    }
+
+                    jO = new JSONObject(message);
+                    if (jO.getInt("status") == 500) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(),
+                                        "与原密码相同，请设置新的密码", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        return;
+                    } else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "修改成功,请重新登录",
+                                        Toast.LENGTH_SHORT).show();
+                                ResetPasswordActivity.this.finish();
+                            }
+                        });
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

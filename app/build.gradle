@@ -21,7 +21,13 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':circleloadinglibrary')
+    compile project(':fablibrary')
     compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.github.wangjiegulu:AndroidInject:1.0.6'
+    compile 'com.github.wangjiegulu:AndroidBucket:1.0.4'
+    compile 'com.github.wangjiegulu:ShadowViewHelper:1.0.1'
+    compile 'com.android.support:support-v4:22.2.0'
     compile 'com.google.code.gson:gson:2.3.1'
     compile files('libs/SMSSDK-1.2.2.jar')
     compile files('libs/jpush-sdk-release1.7.5.jar')
