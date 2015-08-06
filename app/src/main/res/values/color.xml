@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="MainBackgroud">#00bcd4</color>
+    <color name="ColorPrimary">#00bcd4</color>
+    <color name="ColorPrimary_dark">#00acc1</color>
+    <!--<color name="ColorPrimary_dark">#0097a7</color>-->
+    <color name="ColorPrimary_light">#4dd0e1</color>
+    <color name="ForegroudPrimary">#fafafa</color>
+
     <color name="TitleTextColor">#fdfdfe</color>
     <color name="TabTextColor_selected">#fdfdfe</color>
     <color name="TabTextColor_unselected">#75beb7</color>
     <color name="ListItemBackgroud">#b2ebf2</color>
 
-    <color name="fabMainColor"></color>
+    <color name="fabMainColor">#edfd41</color>
     <color name="menuTextColor_selected">#000001</color>
     <color name="menuTextColor_unselected">#212121</color>
+
+    <color name="circleAnimation">#ff8f00</color>
+    <color name="circleAnimationDark">#795548</color>
 
 </resources>

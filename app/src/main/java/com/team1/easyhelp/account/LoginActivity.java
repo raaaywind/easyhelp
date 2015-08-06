@@ -1,7 +1,6 @@
 package com.team1.easyhelp.account;
 
-import android.annotation.SuppressLint;
-import android.app.ActionBar;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,16 +10,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
+
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.team1.easyhelp.R;
-import com.team1.easyhelp.home.HomeActivity;
 import com.team1.easyhelp.testActivity;
 import com.team1.easyhelp.utils.MD5;
 import com.team1.easyhelp.utils.RequestHandler;
@@ -32,10 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
     protected ImageButton loginButton;
 
-    private EditText accountEdit;
-    private EditText passwordEdit;
     private SharedPreferences sharedPref;
-
     private String account;
     private String password;
 
@@ -47,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         initial_layout();
-        check_if_confirmed();
     }
 
     // 初始化界面布局以及动画效果
@@ -67,23 +58,15 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        sharedPref = this.getSharedPreferences("user_info", Context.MODE_PRIVATE);
     }
 
-    // 查询登录状态，如果已有登陆的user_id，则跳过登陆验证界面，去到主页
-    public void check_if_confirmed() {
-        sharedPref = this.getSharedPreferences("user_info", Context.MODE_PRIVATE);
-        int id = sharedPref.getInt("user_id", -1);
-        if (id != -1) {
-            Intent it = new Intent(this, testActivity.class);
-            startActivity(it);
-            LoginActivity.this.finish();
-        }
-    }
 
     // 设置按下登陆按钮后的验证过程
     public void Login(View view) {
-        accountEdit = (EditText) findViewById(R.id.usertext);
-        passwordEdit = (EditText) findViewById(R.id.passwordtext);
+        EditText accountEdit = (EditText) findViewById(R.id.usertext);
+        EditText passwordEdit = (EditText) findViewById(R.id.passwordtext);
         account = accountEdit.getText().toString();
         password = passwordEdit.getText().toString();
 
@@ -216,7 +199,7 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("nickname", account);
                                 else
                                     editor.putString("nickname", jsonObject.getString("nickname"));
-                                editor.commit();
+                                editor.apply();
 
                                 Intent it = new Intent(LoginActivity.this, testActivity.class);
                                 startActivity(it);

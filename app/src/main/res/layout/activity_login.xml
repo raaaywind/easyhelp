@@ -28,7 +28,7 @@
         android:hint="账户"
         android:textSize="16sp"
         android:textColorHint="#86aa9f"
-        android:textColor="#fdaa90"
+        android:textColor="#f36c60"
         android:phoneNumber="true" />
 
     <EditText
@@ -43,7 +43,7 @@
         android:hint="密码"
         android:textSize="16sp"
         android:textColorHint="#86aa9f"
-        android:textColor="#fdaa90"
+        android:textColor="#f36c60"
         android:password="true" />
 
     <ImageButton

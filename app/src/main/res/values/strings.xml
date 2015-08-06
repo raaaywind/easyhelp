@@ -10,8 +10,7 @@
     <string name="title_activity_set_password">setPasswordActivity</string>
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
     <string name="title_activity_test">testActivity</string>
-    <string name="title_activity_mapdemo">MapdemoActivity</string>
-    <string name="title_activity_map_test">mapTestActivity</string>
-    <string name="title_activity_base_map">BaseMapActivity</string>
     <string name="title_activity_sosmap">SOSMapActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_transition">TransitionActivity</string>
 </resources>

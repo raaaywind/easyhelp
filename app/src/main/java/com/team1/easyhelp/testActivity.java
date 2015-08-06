@@ -1,11 +1,14 @@
 package com.team1.easyhelp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.team1.easyhelp.send.SOSMapActivity;
+import com.team1.easyhelp.send.TransitionActivity;
 
 public class testActivity extends AppCompatActivity {
 
@@ -38,11 +41,10 @@ public class testActivity extends AppCompatActivity {
     }
 
     public void getMap(View view) {
-//        Intent it = new Intent(this, mapDemo.class);
-//        startActivity(it);
+        startActivity(new Intent(this, SOSMapActivity.class));
     }
 
     public void getMap2(View view) {
-
+        startActivity(new Intent(this, TransitionActivity.class));
     }
 }

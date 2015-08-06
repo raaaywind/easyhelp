@@ -11,7 +11,7 @@
         android:layout_height="50dp"
         android:id="@+id/map"
         android:onClick="getMap"
-        android:text="地图"/>
+        android:text="发送求救"/>
 
     <Button
         android:layout_width="100dp"

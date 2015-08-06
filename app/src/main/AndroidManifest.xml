@@ -44,13 +44,17 @@
             android:value="HwE4mTBP2IE992xORsS3VmuG" />
 
         <activity
-            android:name=".account.LoginActivity"
+            android:name=".account.PreloadActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".account.LoginActivity"
+            android:label="@string/title_activity_login" >
         </activity>
         <activity
             android:name=".home.HomeActivity"
@@ -77,12 +81,12 @@
             android:label="@string/title_activity_test" >
         </activity>
         <activity
-            android:name=".map.BaseMapActivity"
-            android:label="@string/title_activity_base_map" >
-        </activity>
-        <activity
             android:name=".send.SOSMapActivity"
             android:label="@string/title_activity_sosmap" >
+        </activity>
+        <activity
+            android:name=".send.TransitionActivity"
+            android:label="@string/title_activity_transition" >
         </activity>
     </application>
 

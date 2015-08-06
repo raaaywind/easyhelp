@@ -2,6 +2,7 @@ package com.team1.easyhelp.send;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,6 +14,8 @@ public class SOSMapActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sosmap);
+
+        initialLayout();
     }
 
     @Override
@@ -35,5 +38,18 @@ public class SOSMapActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initialLayout() {
+        initialToolBar();
+    }
+
+    private void initialToolBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("发送求救");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.TitleTextColor));
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
     }
 }

@@ -17,7 +17,7 @@
         android:hint="请输入手机号"
         android:textSize="16sp"
         android:textColorHint="#86aa9f"
-        android:textColor="#fdaa90" />
+        android:textColor="#f36c60" />
 
     <EditText
         android:layout_width="@dimen/editText_width_long"
@@ -30,7 +30,7 @@
         android:hint="请输入验证码"
         android:textSize="16sp"
         android:textColorHint="#86aa9f"
-        android:textColor="#fdaa90" />
+        android:textColor="#f36c60" />
 
     <Button
         android:layout_width="@dimen/editText_width_long"
