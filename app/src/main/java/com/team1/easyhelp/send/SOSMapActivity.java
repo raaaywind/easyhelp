@@ -26,6 +26,12 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.team1.easyhelp.R;
@@ -37,28 +43,33 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class SOSMapActivity extends AppCompatActivity {
 
     private int user_id;
+    private int event_id;
 
     private MapView mapView;
     private BaiduMap mMap;
-
-
-//    private Marker[] markers;
     private LocationClient mLocClient;
     public MyLocationListener myListener = new MyLocationListener();
-    private LocationMode mCurrentMode;
-    BitmapDescriptor bitmap1;
-    BitmapDescriptor bitmap2;
-    BitmapDescriptor bitmap0;
-
-//    private LatLng[] neighborsLoc;
-    private List<User> neighbors;
+    public GeoCoder geoCoder;
+    public OnGetGeoCoderResultListener listener;
+    private BitmapDescriptor bitmap1;
+    private BitmapDescriptor bitmap2;
+    private BitmapDescriptor bitmap0;
+    private double latitude;
+    private double longitude;
+    private String locString = ""; // 包含用户地理位置的字符串
 
     boolean isFirstLoc = true; // 是否首次定位
 
-    Gson gson = new Gson();
+    private List<User> neighbors; // 求救者周围的用户
+
+    private Gson gson = new Gson();
+    private String url = "http://120.24.208.130:1501";
+    private String sosType; // 求救类型
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +79,27 @@ public class SOSMapActivity extends AppCompatActivity {
         initialLayout();
 
         // 在地图上标记出周围的用户
-        new Thread(setMarkerRunnable).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getNeighbors();
+            }
+        }).start();
+
+        // 在后台服务器为此求救事件创建信息
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // 延迟2.5s后再执行此线程任务，上传事件详情，以确保坐标已定位准确
+                    Thread.sleep(2500);
+                    sendSOS();
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
     @Override
@@ -76,8 +107,12 @@ public class SOSMapActivity extends AppCompatActivity {
         // activity 销毁时同时销毁地图控件
         mLocClient.stop();
         mMap.setMyLocationEnabled(false);
+        geoCoder.destroy();
         mapView.onDestroy();
         mapView = null;
+
+        // 通知后台将该条求救信息状态设为已完成
+        finishSOS();
 
         super.onDestroy();
     }
@@ -85,15 +120,17 @@ public class SOSMapActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        // activity 暂停时同时暂停地图控件
+        // activity 暂停时同时暂停地图控件与推送控件
         mapView.onPause();
+        JPushInterface.onPause(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // activity 恢复时同时恢复地图控件
+        // activity 恢复时同时恢复地图控件与推送控件
         mapView.onResume();
+        JPushInterface.onResume(this);
     }
 
     @Override
@@ -118,16 +155,20 @@ public class SOSMapActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // 加载界面后的初始化操作
+    // 加载基本界面后，进行的初始化操作
     private void initialLayout() {
         user_id = this.getSharedPreferences("user_info", Context.MODE_PRIVATE)
                 .getInt("user_id", -1);
         initialToolBar();
         initialMap();
         initialLocation();
+        initialGeoCoder();
         initialIcon();
+        // 初始的求救类型设为默认
+        sosType = "SOS";
     }
 
+    // 初始化ToolBar
     private void initialToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("发送求救");
@@ -137,6 +178,7 @@ public class SOSMapActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
     }
 
+    // 初始化地图的基本显示
     private void initialMap() {
         mapView = (MapView) findViewById(R.id.mapView);
         mMap = mapView.getMap();
@@ -155,49 +197,50 @@ public class SOSMapActivity extends AppCompatActivity {
         mMap.animateMapStatus(u);
     }
 
+    // 初始化定位功能
     private void initialLocation() {
         // 设置定位功能
-
-        mCurrentMode = LocationMode.FOLLOWING; // 定位图层类型
+        LocationMode mCurrentMode = LocationMode.FOLLOWING; // 定位图层类型
         mMap.setMyLocationEnabled(true); // 开启定位图层
         /**
          * 配置定位图层显示方式；
-         * 参数依次为定位图层显示方式， 是否允许显示方向信息，用户自定义定位图标
-         */
+         * 参数依次为定位图层显示方式， 是否允许显示方向信息，用户自定义定位图标 */
         mMap.setMyLocationConfigeration(new MyLocationConfiguration(
                 mCurrentMode, true, null));
-        // 初始化定位
+        // 初始化定位控制器
         mLocClient = new LocationClient(this);
         // 设置定位监听器
         mLocClient.registerLocationListener(myListener);
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true); // 开启GPS
-        option.setCoorType("bd09ll"); // 设置坐标类型
-        option.setScanSpan(1500); // 设置定位刷新时间为1.5秒
+        option.setCoorType("bd09ll"); // 设置坐标类型为百度经纬度标准
+        option.setScanSpan(1000); // 设置定位刷新时间为1.5秒
         mLocClient.setLocOption(option);
         mLocClient.start();
     }
 
-    /**
-     * 定位SDK监听类
-     */
+    // 设置定位的监听器
     public class MyLocationListener implements BDLocationListener {
-
         @Override
         public void onReceiveLocation(BDLocation location) {
             // map view 销毁后不再处理新接收的位置
             if (location == null || mapView == null)
                 return;
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+
+            // 构造定位数据
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
                             // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(100).latitude(location.getLatitude())
-                    .longitude(location.getLongitude()).build();
+                    .direction(100).latitude(latitude)
+                    .longitude(longitude).build();
             mMap.setMyLocationData(locData);
             if (isFirstLoc) {
                 isFirstLoc = false;
-                LatLng ll = new LatLng(location.getLatitude(),
-                        location.getLongitude());
+                // 设置地图中心为当前定位点
+                LatLng ll = new LatLng(latitude,
+                        longitude);
                 MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
                 mMap.animateMapStatus(u);
             }
@@ -207,7 +250,7 @@ public class SOSMapActivity extends AppCompatActivity {
         }
     }
 
-    // 设定不同尺寸的图片资源
+    // 设定不同尺寸的标记图标资源
     private void initialIcon() {
         bitmap0 = BitmapDescriptorFactory
                 .fromResource(R.drawable.ic_place_red_600_24dp);
@@ -217,13 +260,38 @@ public class SOSMapActivity extends AppCompatActivity {
                 .fromResource(R.drawable.ic_place_red_600_48dp);
     }
 
-    // 获取周围的用户
+    public void initialGeoCoder() {
+        // 创建地理编码检索实例
+        geoCoder = GeoCoder.newInstance();
+        listener = new OnGetGeoCoderResultListener() {
+            // 地理编码查询结果回调函数（未使用该功能）
+            @Override
+            public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {}
+
+            // 反地理编码查询结果回调函数
+            @Override
+            public void onGetReverseGeoCodeResult(
+                    ReverseGeoCodeResult reverseGeoCodeResult) {
+                if (reverseGeoCodeResult == null ||
+                        reverseGeoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
+                    Toast.makeText(SOSMapActivity.this, "获取地理位置编码失败",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    locString = reverseGeoCodeResult.getAddress(); // 存储得到的地理位置信息
+                }
+            }
+        };
+
+        // 设置地理编码检索监听者
+        geoCoder.setOnGetGeoCodeResultListener(listener);
+    }
+
+    // 获取周围的用户，初始化neighbors列表
     private void getNeighbors() {
         String jsonString = "{" +
                 "\"id\":" + user_id +
                 ",\"type\":0" +
                 "}";
-        String url = "http://120.24.208.130:1501";
         String message = RequestHandler.sendPostRequest(url + "/user/neighbor", jsonString);
         if (message.equals("false")) {
             runOnUiThread(new Runnable() {
@@ -253,29 +321,109 @@ public class SOSMapActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        // 根据所得到的信息调用函数绘制标记
+        showNeighborsOnMap();
     }
 
-    // 将获取到的信息显示在地图上
+    // 将获取到的neighbors信息显示在地图上
     public void showNeighborsOnMap() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 for (User user : neighbors) {
-                    LatLng userLoc = new LatLng(user.getLatitude(), user.getLongitude());
-                    mMap.addOverlay(new MarkerOptions().position(userLoc).icon(bitmap0)); // 使用中尺寸的图标标记用户位置
+                    if (user.getId() != user_id) {
+                        LatLng userLoc = new LatLng(user.getLatitude(), user.getLongitude());
+                        mMap.addOverlay(new MarkerOptions().position(userLoc).icon(bitmap0)); // 使用中尺寸的图标标记用户位置
+                    }
                 }
             }
         });
     }
 
+    // 根据获得的定位坐标反编码得到地理位置
+    public void getReverseGeoCode() {
+        // 执行反地理编码查询
+        geoCoder.reverseGeoCode(new ReverseGeoCodeOption()
+                .location(new LatLng(latitude, longitude)));
+    }
 
-    // 设置Runnable在后台获取以及标记附近的人
-    Runnable setMarkerRunnable = new Runnable() {
-        @Override
-        public void run() {
-            getNeighbors();
-            showNeighborsOnMap();
+    // 将本条求救信息发送至后台服务器端存储
+    private void sendSOS() {
+        try {
+            // 根据定位坐标初始化地理位置字串
+            getReverseGeoCode();
+
+            Thread.sleep(2000); // 等待地理位置字串查询成功
+            String jsonString = "{" +
+                    "\"id\":" + user_id +
+                    ",\"type\":2" +
+                    ",\"title\":\"" + sosType + "\"" +
+                    ",\"longitude\":" + longitude +
+                    ",\"latitude\":" + latitude +
+                    ",\"location\":\"" + locString + "\"" +
+                    "}";
+            String message = RequestHandler.sendPostRequest(
+                    url + "/event/add", jsonString);
+
+            if (message.equals("false")) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "上传求救信息失败，请检查网络设置", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                try {
+                    JSONObject jO = new JSONObject(message);
+                    if (jO.getInt("status") == 500) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(),
+                                        "上传求救信息失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        event_id = jO.getJSONObject("value").getInt("event_id");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(),
+                                        "求救事件" + event_id + "已发送成功", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch(Throwable e) {
+            e.printStackTrace();
         }
-    };
+    }
+
+    // 退出求救状态以后更新服务器端事件状态
+    private void finishSOS() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String jsonString = "{" +
+                        "\"id\":" + user_id +
+                        ",\"event_id\":" + event_id +
+                        ",\"state\":1" +
+                        "}";
+                String msg = RequestHandler.sendPostRequest(
+                        url + "/event/modify", jsonString);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(),
+                                "求救状态已撤销", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).start();
+    }
 }
 
