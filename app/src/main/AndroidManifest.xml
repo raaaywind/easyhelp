@@ -7,6 +7,7 @@
         android:name="com.ehelp.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
 
+
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- Required  一些系统要求的权限，如访问网络等 -->
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
@@ -42,6 +43,15 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="HwE4mTBP2IE992xORsS3VmuG" />
+
+        <service android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2" >
+                </action>
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".account.PreloadActivity"

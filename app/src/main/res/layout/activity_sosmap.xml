@@ -9,6 +9,7 @@
     <com.baidu.mapapi.map.MapView android:layout_width="match_parent"
         android:layout_height="320dp"
         android:layout_below="@+id/include"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:id="@+id/mapView"/>
 
 </RelativeLayout>

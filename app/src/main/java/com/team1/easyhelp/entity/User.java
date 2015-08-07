@@ -4,21 +4,22 @@ package com.team1.easyhelp.entity;
  */
 public class User {
 
-    private int occupation;
-    private int gender;
-    private String identity_id;
-    private double latitude;
-    private double reputation;
-    private int isVerify;
-    private String phone;
+    private int id;
     private String name;
     private String nickname;
-    private String location;
-    private int id;
+    private int gender;
     private int age;
+    private String phone;
+    private String location;
     private double longitude;
+    private double latitude;
+    private int occupation;
+    private double reputation;
+    private String identity_id;
+    private int isVerify;
 
-    private HealthCard healthCard;
+
+//    private HealthCard healthCard;
 
     public void setOccupation(int occupation) {
         this.occupation = occupation;
@@ -68,7 +69,7 @@ public class User {
         this.age = age;
     }
 
-    public void setHealthCard(HealthCard healthCard) { this.healthCard = healthCard; }
+//    public void setHealthCard(HealthCard healthCard) { this.healthCard = healthCard; }
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
@@ -126,5 +127,5 @@ public class User {
         return longitude;
     }
 
-    public HealthCard getHealthCard() { return healthCard; }
+//    public HealthCard getHealthCard() { return healthCard; }
 }
