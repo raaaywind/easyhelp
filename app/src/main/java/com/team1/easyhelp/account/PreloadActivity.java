@@ -4,14 +4,32 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.location.LocationClientOption.LocationMode;
 import com.baidu.mapapi.SDKInitializer;
 import com.team1.easyhelp.R;
 import com.team1.easyhelp.testActivity;
+import com.team1.easyhelp.utils.RequestHandler;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class PreloadActivity extends AppCompatActivity {
+    // 设置定位相关变量
+    private LocationClient mLocationClient;
+    private LocationMode tempMode = LocationMode.Hight_Accuracy; // 设置选项为高精度定位模式
+    private String tempcoor="bd09ll"; // 设置坐标类型为百度经纬度标准
+
+    private double latitude;
+    private double longitude;
+
+    private int user_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +37,18 @@ public class PreloadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_preload);
 
         initial();
+    }
+
+    @Override
+    protected void onStop() {
+        mLocationClient.stop();
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mLocationClient.stop();
+        super.onDestroy();
     }
 
     @Override
@@ -44,14 +74,22 @@ public class PreloadActivity extends AppCompatActivity {
     }
 
     private void initial() {
-        // 在开始应用时初始化地图控件
+        // 在开始应用时初始化Application级别的地图控件
         SDKInitializer.initialize(getApplicationContext());
+        initialLocationClient(); // 开启定位功能
+        // 初始化JPUSH推送相关功能
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+        // 读取用户id
+        user_id = this.getSharedPreferences("user_info", Context.MODE_PRIVATE)
+                .getInt("user_id", -1);
 
+        // 查询登陆状态， 延迟1.5s后执行
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(1100);
+                    Thread.sleep(1500);
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }
@@ -67,9 +105,7 @@ public class PreloadActivity extends AppCompatActivity {
 
     // 查询登录状态，如果已有登陆的user_id，则跳过登陆验证界面，去到主页
     public void check_if_confirmed() {
-        int id = this.getSharedPreferences("user_info", Context.MODE_PRIVATE)
-                .getInt("user_id", -1);
-        if (id != -1) {
+        if (user_id != -1) {
             Intent it = new Intent(this, testActivity.class);
             startActivity(it);
         } else {
@@ -77,5 +113,57 @@ public class PreloadActivity extends AppCompatActivity {
             startActivity(it);
         }
         PreloadActivity.this.finish();
+    }
+
+    // 初始化定位模块
+    private void initialLocationClient() {
+        mLocationClient = new LocationClient(this);
+        mLocationClient.registerLocationListener(new MyLocationListener());
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(tempMode); // 设置定位精度
+        option.setScanSpan(0); // 只定位一次
+        option.setOpenGps(true); // 开启Gps
+        option.setIgnoreKillProcess(false);
+        option.setCoorType(tempcoor); // 设置坐标类型
+        mLocationClient.setLocOption(option);
+        mLocationClient.start();
+    }
+
+    // 每次登陆时上传当前状态的用户位置信息
+    public void uploadUserLocation() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String jsonString = "{" +
+                            "\"id\":" + user_id +
+                            ",\"latitude\":" + latitude +
+                            ",\"longitude\":" + longitude +
+                            "}";
+                    String url = "http://120.24.208.130:1501/user/modify_information";
+                    String msg = RequestHandler.sendPostRequest(url, jsonString);
+                    Log.v("hehe", msg);
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    // 设置定位的监听器
+    public class MyLocationListener implements BDLocationListener {
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            if (location == null)
+                return;
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+
+            // 更新定位信息
+            uploadUserLocation();
+        }
+
+        public void onReceivePoi(BDLocation poiLocation) {
+        }
     }
 }
