@@ -185,6 +185,14 @@ public class SOSMapActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+
+        // 设置toolbar的NavigationIcon的返回动作
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SOSMapActivity.this.finish();
+            }
+        });
     }
 
     // 初始化地图的基本显示

@@ -21,4 +21,12 @@
         android:text="地图2"
         android:layout_below="@id/map"/>
 
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:id="@+id/question"
+        android:onClick="getSendQue"
+        android:text="发送问题"
+        android:layout_below="@id/map2"/>
+
 </RelativeLayout>
