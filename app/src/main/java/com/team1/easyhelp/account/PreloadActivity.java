@@ -24,12 +24,13 @@ public class PreloadActivity extends AppCompatActivity {
     // 设置定位相关变量
     private LocationClient mLocationClient;
     private LocationMode tempMode = LocationMode.Hight_Accuracy; // 设置选项为高精度定位模式
-    private String tempcoor="bd09ll"; // 设置坐标类型为百度经纬度标准
+    String tempcoor="bd09ll"; // 设置坐标类型为百度经纬度标准
 
     private double latitude;
     private double longitude;
 
     private int user_id;
+    private String identity_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class PreloadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_preload);
 
         initial();
+
+
     }
 
     @Override
@@ -83,6 +86,8 @@ public class PreloadActivity extends AppCompatActivity {
         // 读取用户id
         user_id = this.getSharedPreferences("user_info", Context.MODE_PRIVATE)
                 .getInt("user_id", -1);
+        // 获取极光推送的用户识别ID
+        identity_id = JPushInterface.getRegistrationID(getApplicationContext());
 
         // 查询登陆状态， 延迟1.5s后执行
         new Thread(new Runnable() {
@@ -121,7 +126,7 @@ public class PreloadActivity extends AppCompatActivity {
         mLocationClient.registerLocationListener(new MyLocationListener());
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(tempMode); // 设置定位精度
-        option.setScanSpan(0); // 只定位一次
+        option.setScanSpan(0); // 定位刷新频率，如果为0则只定位一次
         option.setOpenGps(true); // 开启Gps
         option.setIgnoreKillProcess(false);
         option.setCoorType(tempcoor); // 设置坐标类型
@@ -129,7 +134,7 @@ public class PreloadActivity extends AppCompatActivity {
         mLocationClient.start();
     }
 
-    // 每次登陆时上传当前状态的用户位置信息
+    // 每次登陆时上传当前状态的用户位置信息与极光推送ID
     public void uploadUserLocation() {
         new Thread(new Runnable() {
             @Override
@@ -137,12 +142,12 @@ public class PreloadActivity extends AppCompatActivity {
                 try {
                     String jsonString = "{" +
                             "\"id\":" + user_id +
+                            ",\"identity_id\":\"" + identity_id + "\"" +
                             ",\"latitude\":" + latitude +
                             ",\"longitude\":" + longitude +
                             "}";
                     String url = "http://120.24.208.130:1501/user/modify_information";
-                    String msg = RequestHandler.sendPostRequest(url, jsonString);
-                    Log.v("hehe", msg);
+                    RequestHandler.sendPostRequest(url, jsonString);
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }

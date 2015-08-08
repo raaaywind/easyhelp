@@ -14,6 +14,9 @@ import android.widget.Button;
 import com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView;
 import com.team1.easyhelp.R;
 
+/**
+ * 控制发送求救之前的倒数动画
+ */
 public class TransitionActivity extends AppCompatActivity {
     // 动画视图控制
     private AnimatedCircleLoadingView animatedCircleLoadingView;
@@ -31,7 +34,7 @@ public class TransitionActivity extends AppCompatActivity {
                     Thread.sleep(2600);
                 }
                 Thread.sleep(1000);
-                //
+                // 如果该页面未被销毁，则跳转到求救页面
                 if (!TransitionActivity.this.isFinishing()) {
                     getIntoSOS(); // 跳转到求救页面
                 }

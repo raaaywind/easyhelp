@@ -13,7 +13,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.UUID;
 
-/*@author HanksChan
+import javax.net.ssl.HttpsURLConnection;
+
+/**@author HanksChan
 * @version 1.2
 * With this class, Client can send the request
 * to the Server and get the response from the Server 
@@ -22,7 +24,7 @@ import java.util.UUID;
 public class RequestHandler {
 
 	/* send the request by GET method
-	 * @param a url path: "url:port/extend_url?params1&params2"
+	 * @param a url path: "url:port/extend_url?param1&param2"
 	 * 		  for the ehelp project, must provide the url path
 	 *        like "http://120.24.208.130:1501/account/login..."
 	 * @return a string that the server respond with json format
@@ -40,9 +42,9 @@ public class RequestHandler {
 			conn.setDoOutput(true); // permit to use the outputstrem
 			conn.setUseCaches(false); // deny to use the cache
 			
-			StringBuffer sBuffer = new StringBuffer();
+			StringBuilder sBuffer = new StringBuilder();
 			if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
-				String line = null;
+				String line;
 				InputStream in = conn.getInputStream();
 				BufferedReader bReader = new BufferedReader(new InputStreamReader(in));
 				while((line = bReader.readLine()) != null) {
@@ -84,9 +86,9 @@ public class RequestHandler {
 			byte data[] = jsondata.getBytes("UTF-8"); // use utf-8 coding format to transformat string to a byte array
 			conn.getOutputStream().write(data);
 			
-			StringBuffer sBuffer = new StringBuffer();
+			StringBuilder sBuffer = new StringBuilder();
 			if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
-				String line = null;
+				String line;
 				InputStream in = conn.getInputStream();
 				BufferedReader bReader = new BufferedReader(new InputStreamReader(in));
 				while((line = bReader.readLine()) != null) {
@@ -104,9 +106,47 @@ public class RequestHandler {
 		return "false";
 		
 	}
+
+	/**
+	 * 	联网发送信息到极光推送服务器
+	 */
+	public static String sendJPushPostRequest(String urlStr, String jsonString) {
+		try {
+			URL url = new URL(urlStr);
+			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+			conn.setDoInput(true); // permit to use the inputstream
+			conn.setDoOutput(true); // permit to use the outputstrem
+			conn.setUseCaches(false); // deny to use the cache
+			conn.setConnectTimeout(5000);
+			conn.setRequestMethod("POST");
+			String auth = "OGNhMGNhYzBlNzdkYjA2Y2QxZmE0M2U1OjkxNDZjNWYzZGIwZGRiN2M1NzRiYmE3Nw==";
+			conn.setRequestProperty("Content-Type", "application/json");// set the request Content-Type
+			conn.setRequestProperty("Authorization", "Basic " + auth);
+
+			byte data[] = jsonString.getBytes("UTF-8");
+			conn.getOutputStream().write(data);
+
+			StringBuilder sBuffer = new StringBuilder();
+
+			if(conn.getResponseCode() == HttpsURLConnection.HTTP_OK){
+				String line;
+				InputStream in = conn.getInputStream();
+				BufferedReader bReader = new BufferedReader(new InputStreamReader(in));
+				while((line = bReader.readLine()) != null) {
+					sBuffer.append(line);
+				}
+				return sBuffer.toString();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "false";
+	}
+
 	
-	/* send a file(.jpg) to server by POST method
-	 * @params a url path
+	/*send a file(.jpg) to server by POST method
+	 * @param a url path
 	 * 		   a image file
 	 * @return a String "true" if upload successfully,0
 	 * 		   "false" otherwise
@@ -137,7 +177,7 @@ public class RequestHandler {
 				DataOutputStream doStream = new DataOutputStream(outputStream);
 				
 				// request's entity body
-				StringBuffer sBuffer = new StringBuffer();
+				StringBuilder sBuffer = new StringBuilder();
 				sBuffer.append(PREFIX);
 				sBuffer.append(BOUNDARY);
 				sBuffer.append(lINE_ENDString);		
@@ -150,7 +190,7 @@ public class RequestHandler {
 				
 				InputStream in = new FileInputStream(file);
 				byte[] bytes = new byte[2014];
-				int len = 0;
+				int len;
 				while((len = in.read(bytes)) != -1) {
 					doStream.write(bytes, 0, len);
 				}

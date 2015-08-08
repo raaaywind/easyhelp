@@ -3,6 +3,7 @@ package com.team1.easyhelp.account;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -18,6 +19,8 @@ import com.team1.easyhelp.utils.RequestHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class setPasswordActivity extends AppCompatActivity {
 
     private EditText passwordEdit;
@@ -27,6 +30,7 @@ public class setPasswordActivity extends AppCompatActivity {
     private String account;
     private String password;
     private String password2;
+    private String registrationID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,81 +93,101 @@ public class setPasswordActivity extends AppCompatActivity {
         password = passwordEdit.getText().toString();
         password2 = passwordRepeatEdit.getText().toString();
 
-        new Thread(setPasswordRunnable).start();
+        // 注册JPush服务器的用户身份标识
+        registrationID = JPushInterface.getRegistrationID(getApplicationContext());
+
+        //
+        setAccountInformation();
     }
 
-    Runnable setPasswordRunnable = new Runnable() {
-        @Override
-        public void run() {
-            String message;
-            String jsonString;
+    private void setAccountInformation() {
 
-            if (password.isEmpty() || password2.isEmpty()) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "请输入密码",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } else {
-                if (password.length() < 6) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                String message;
+                String jsonString;
+
+                if (password.isEmpty() || password2.isEmpty()) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), "请输入至少6位密码",
+                            Toast.makeText(getApplicationContext(), "请输入密码",
                                     Toast.LENGTH_SHORT).show();
                         }
                     });
-                    return;
-                }
-                if (!password.equals(password2)) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "密码不一致",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    return;
-                }
-                password2 = MD5.MD5_encode(password, "");
-                jsonString = "{" +
-                        "\"account\":\"" + account + "\"," +
-                        "\"password\":\"" + password2 + "\"" + "}";
-                message = RequestHandler.sendPostRequest(
-                        "http://120.24.208.130:1501/account/regist",jsonString);
-                if (message.equals("false")) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(),
-                                    "提交失败，请检查网络是否连接并重试", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    return;
-                }
-
-                try {
-                    JSONObject jO = new JSONObject(message);
-                    if (jO.getInt("status") == 500) {
+                } else {
+                    if (password.length() < 6) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getApplicationContext(), "注册失败",
+                                Toast.makeText(getApplicationContext(), "请输入至少6位密码",
                                         Toast.LENGTH_SHORT).show();
                             }
                         });
                         return;
-                    } else {
-                        Toast.makeText(getApplicationContext(), "注册成功",
-                                Toast.LENGTH_SHORT).show();
-                        setPasswordActivity.this.finish();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    if (!password.equals(password2)) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "密码不一致",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        return;
+                    }
+                    password2 = MD5.MD5_encode(password, "");
+                    jsonString = "{" +
+                            "\"account\":\"" + account + "\"," +
+                            "\"password\":\"" + password2 + "\"" + "}";
+                    message = RequestHandler.sendPostRequest(
+                            "http://120.24.208.130:1501/account/regist", jsonString);
+                    if (message.equals("false")) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(),
+                                        "提交失败，请检查网络是否连接并重试", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        return;
+                    }
+
+                    try {
+                        JSONObject jO = new JSONObject(message);
+                        if (jO.getInt("status") == 500) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), "注册失败",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            int user_id = jO.getInt("id");
+                            setRegistrationID(user_id);
+
+                            Toast.makeText(getApplicationContext(), "注册成功",
+                                    Toast.LENGTH_SHORT).show();
+                            setPasswordActivity.this.finish();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-        }
-    };
+        };
+
+        new Thread(runnable).start();
+    }
+
+    // 在服务器上更新极光推送专有id
+    private void setRegistrationID(int user_id) {
+        String jsonString = "{" + "\"id\":"+ user_id +"," +
+                "\"identity_id\":\"" + registrationID + "\"" + "}";
+        String msg = RequestHandler.sendPostRequest(
+                "http://120.24.208.130:1501/user/modify_information", jsonString);
+        Log.v("JPush", msg);
+    }
 }

@@ -199,9 +199,11 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("nickname", account);
                                 else
                                     editor.putString("nickname", jsonObject.getString("nickname"));
+                                editor.putString("identity_id", jsonObject.getString("identity_id"));
                                 editor.apply();
 
-                                Intent it = new Intent(LoginActivity.this, testActivity.class);
+                                // 登陆完成后仍然在预加载页面处理跳转
+                                Intent it = new Intent(LoginActivity.this, PreloadActivity.class);
                                 startActivity(it);
                                 LoginActivity.this.finish();
                             }

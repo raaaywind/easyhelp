@@ -41,7 +41,13 @@ import com.team1.easyhelp.utils.RequestHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -86,7 +92,7 @@ public class SOSMapActivity extends AppCompatActivity {
             }
         }).start();
 
-        // 在后台服务器为此求救事件创建信息
+        // 在后台服务器为此求救事件创建信息，并推送求救到附近的人
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -99,6 +105,9 @@ public class SOSMapActivity extends AppCompatActivity {
                 }
             }
         }).start();
+
+        // 发送广播
+        this.sendBroadcast(getIntent());
 
     }
 
@@ -386,6 +395,9 @@ public class SOSMapActivity extends AppCompatActivity {
                         });
                     } else {
                         event_id = jO.getJSONObject("value").getInt("event_id");
+
+                        // 事件创建成功后通过极光推送推送给附近的人
+                        pushToNeighbors();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -425,5 +437,43 @@ public class SOSMapActivity extends AppCompatActivity {
             }
         }).start();
     }
+
+    // 通过极光推送发送求救到附近用户 （未来将同时向紧急联系人推送）
+    private void pushToNeighbors() {
+        String jsonString = "{" + "\"platform\":\"android\","
+                + "\"audience\":{\"registration_id\":[";
+        int i = 0;
+        for (User user : neighbors) {
+            if (user.getId() != user_id) {
+                if (i == 0) {
+                    jsonString = jsonString + "\"" + user.getIdentity_id() + "\"";
+                } else {
+                    jsonString = jsonString + ",\"" + user.getIdentity_id() + "\"";
+                }
+                i++;
+            }
+        }
+        jsonString = jsonString +
+                "]},\"notification\":{\"alert\":\"有人正在附近求救！点击查看事件："
+                + event_id + "\"}}";
+        String url = "https://api.jpush.cn/v3/push";
+        String msg = RequestHandler.sendJPushPostRequest(url, jsonString);
+        if (msg.equals("false")) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(SOSMapActivity.this, "推送失败",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    // 设置求救类型为健康类求救
+    public void setHealthSOSTag(View view) {}
+
+    // 设置求救类型为安全类求救
+    public void setSafeSOSTag(View view) {}
+
 }
 
