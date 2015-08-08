@@ -28,11 +28,11 @@
                 android:layout_height="wrap_content"
                 android:hint="问题"
                 android:textCursorDrawable="@color/fabMainColor"
-                android:textSize="32sp"
+                android:textSize="30sp"
                 app:met_baseColor="@android:color/white"
                 app:met_floatingLabel="highlight"
                 app:met_maxCharacters="40"
-                app:met_primaryColor="@color/fabMainColor"
+                app:met_primaryColor="@color/accent"
                 app:met_singleLineEllipsis="true" />
 
             <com.rengwuxian.materialedittext.MaterialEditText
@@ -44,7 +44,7 @@
                 android:singleLine="true"
                 android:inputType="number"
                 app:met_baseColor="@android:color/white"
-                app:met_primaryColor="@color/fabMainColor"
+                app:met_primaryColor="@color/accent"
                 app:met_floatingLabel="highlight" />
 
         </LinearLayout>
