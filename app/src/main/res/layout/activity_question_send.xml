@@ -26,6 +26,7 @@
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/title_edit"
                 android:hint="问题"
                 android:textCursorDrawable="@color/fabMainColor"
                 android:textSize="30sp"
@@ -38,6 +39,7 @@
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/love_coin_edit"
                 android:hint="悬赏爱心币数目"
                 android:textSize="18sp"
                 android:textCursorDrawable="@color/fabMainColor"
@@ -61,10 +63,12 @@
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/text_edit"
                 android:hint="请输入问题描述"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelText="正文描述"
+                app:met_maxCharacters="500"
                 app:met_hideUnderline="true"
                 app:met_clearButton="true"
                 />
