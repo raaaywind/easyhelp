@@ -190,6 +190,14 @@
             android:name=".send.QuestionSendActivity"
             android:label="@string/title_activity_question_send" >
         </activity>
+        <activity
+            android:name=".send.HelpMapActivity"
+            android:label="@string/title_activity_help_map" >
+        </activity>
+        <activity
+            android:name=".send.HelpSubmitActivity"
+            android:label="@string/title_activity_help_submit" >
+        </activity>
     </application>
 
 </manifest>

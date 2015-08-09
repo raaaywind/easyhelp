@@ -2,7 +2,6 @@ package com.team1.easyhelp.send;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,35 +12,42 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.team1.easyhelp.R;
+import com.team1.easyhelp.utils.ActivityCollector;
 import com.team1.easyhelp.utils.RequestHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class QuestionSendActivity extends AppCompatActivity {
+public class HelpSubmitActivity extends AppCompatActivity {
 
     private EditText titleEdit;
+    private EditText contentEdit;
     private EditText coinEdit;
-    private EditText textEdit;
+    private EditText demandNumEdit;
 
+    private int user_id;
     private String title;
-    private String text;
-    private int coin;
-
-    private int user_id = -1;
+    private String content;
+    private int coinNum;
+    private int demandNum;
+    private double latitude;
+    private double longitude;
+    private String location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_question_send);
+        setContentView(R.layout.activity_help_submit);
+        // 收集该Activity，便于销毁
+        ActivityCollector.getInstance().addActivity(this);
 
-        initialLayout();
+        initial();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_question_send, menu);
+        getMenuInflater().inflate(R.menu.menu_help_submit, menu);
         return true;
     }
 
@@ -54,64 +60,88 @@ public class QuestionSendActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.confirm) {
-            // 获取用户输入的信息
-            title = titleEdit.getText().toString();
-            text = textEdit.getText().toString();
-            if (coinEdit.getText().toString().equals("")) {
-                coin = 0;
-            } else {
-                coin = Integer.parseInt(coinEdit.getText().toString());
-            }
-            // 点击toolbar提交按钮则提交信息到服务器
-            submitQuestion();
+            confirmHelpEvent();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    // 初始化页面布局
-    private void initialLayout() {
-        // 绑定UI控件
-        titleEdit = (EditText) findViewById(R.id.title_edit);
-        coinEdit = (EditText) findViewById(R.id.love_coin_edit);
-        textEdit = (EditText) findViewById(R.id.text_edit);
-
-        // 获取user_id
-        user_id = this.getSharedPreferences("user_info", Context.MODE_PRIVATE)
-                .getInt("user_id", -1);
-
+    private void initial() {
         initialToolBar();
+        initialLayout();
+        initialUser();
     }
 
-    // 初始化Toolbar组件
+    // 绑定UI控件
+    private void initialLayout() {
+        titleEdit = (EditText) findViewById(R.id.title_edit);
+        contentEdit = (EditText) findViewById(R.id.text_edit);
+        coinEdit = (EditText) findViewById(R.id.love_coin_edit);
+        demandNumEdit = (EditText) findViewById(R.id.demand_num_edit);
+    }
+
+    // 初始化ToolBar的功能
     private void initialToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("发送提问");
+        toolbar.setTitle("输入求助地点");
         toolbar.setTitleTextColor(getResources().getColor(R.color.TitleTextColor));
         setSupportActionBar(toolbar);
-
         toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
 
-        // 设置toolbar的NavigationIcon的返回动作
+        // 设置toolbar的NavigationIcon的点击响应事件
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                QuestionSendActivity.this.finish();
+                // 取消本次求助
+                ActivityCollector.getInstance().exit();
             }
         });
     }
 
-    // 提交用户输入的信息
-    private void submitQuestion() {
-        if (!title.equals("")) {
+    // 初始化已获得的用户信息
+    private void initialUser() {
+        user_id = this.getSharedPreferences("user_info", Context.MODE_PRIVATE)
+                .getInt("user_id", -1);
+        Bundle bundle = this.getIntent().getExtras();
+        latitude = bundle.getDouble("latitude");
+        longitude = bundle.getDouble("longitude");
+        location = bundle.getString("location");
+    }
+
+
+    // 提交事件
+    private void confirmHelpEvent() {
+        title = titleEdit.getText().toString();
+        content = contentEdit.getText().toString();
+        if (coinEdit.getText().toString().equals("")) {
+            coinNum = 0;
+        } else {
+            coinNum = Integer.parseInt(coinEdit.getText().toString());
+        }
+        if (demandNumEdit.getText().toString().equals("")) {
+            demandNum = 0;
+        } else {
+            demandNum = Integer.parseInt(demandNumEdit.getText().toString());
+        }
+
+        if (title.equals("")) {
+            Toast.makeText(HelpSubmitActivity.this, "事件的标题不能为空",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            // 在后台线程上传事件信息到服务器
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     String jsonString = "{" +
-                            "\"id\":" + user_id + ",\"type\":0," +
+                            "\"id\":" + user_id + ",\"type\":1," +
                             "\"title\":\"" + title + "\"," +
-                            "\"content\":\"" + text + "\"," +
-                            "\"love_coin\":" + coin + "}";
+                            "\"content\":\"" + content + "\"," +
+                            "\"longitude\":" +  longitude + "," +
+                            "\"latitude\":" + latitude + "," +
+                            "\"location\":\"" + location + "\"," +
+                            "\"love_coin\":" + coinNum + "," +
+                            "\"demand_number\":" + demandNum + "}";
                     String message = RequestHandler.sendPostRequest(
                             "http://120.24.208.130:1501/event/add", jsonString);
                     if (message.equals("false")) {
@@ -146,8 +176,7 @@ public class QuestionSendActivity extends AppCompatActivity {
                                     });
                                 }
                             } else {
-                                // 返回到调用提问功能的上一页Activity
-                                QuestionSendActivity.this.finish();
+                                ActivityCollector.getInstance().exit();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -155,10 +184,6 @@ public class QuestionSendActivity extends AppCompatActivity {
                     }
                 }
             }).start();
-        } else {
-            Toast.makeText(QuestionSendActivity.this, "问题的标题不能为空",
-                    Toast.LENGTH_SHORT).show();
         }
     }
-
 }

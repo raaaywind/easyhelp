@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.team1.easyhelp.send.HelpMapActivity;
 import com.team1.easyhelp.send.QuestionSendActivity;
 import com.team1.easyhelp.send.SOSMapActivity;
 import com.team1.easyhelp.send.TransitionActivity;
@@ -51,5 +52,9 @@ public class testActivity extends AppCompatActivity {
 
     public void getSendQue(View view) {
         startActivity(new Intent(this, QuestionSendActivity.class));
+    }
+
+    public void getSendHelp(View view) {
+        startActivity(new Intent(this, HelpMapActivity.class));
     }
 }

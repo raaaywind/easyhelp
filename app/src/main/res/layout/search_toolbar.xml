@@ -7,12 +7,25 @@
 
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/toolbar"
+        android:id="@+id/search_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         >
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_location"
+            android:hint="输入求助地点"
+            android:textCursorDrawable="@color/fabMainColor"
+            android:textSize="20sp"
+            android:singleLine="true"
+            app:met_baseColor="@android:color/white"
+            app:met_floatingLabel="none"
+            app:met_primaryColor="@color/ColorPrimary_light" />
+
 
     </android.support.v7.widget.Toolbar>
 </LinearLayout>

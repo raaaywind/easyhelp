@@ -41,13 +41,7 @@ import com.team1.easyhelp.utils.RequestHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -186,7 +180,7 @@ public class SOSMapActivity extends AppCompatActivity {
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
 
-        // 设置toolbar的NavigationIcon的返回动作
+        // 设置toolbar的NavigationIcon的点击响应事件
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -231,7 +225,7 @@ public class SOSMapActivity extends AppCompatActivity {
         LocationClientOption option = new LocationClientOption();
         option.setOpenGps(true); // 开启GPS
         option.setCoorType("bd09ll"); // 设置坐标类型为百度经纬度标准
-        option.setScanSpan(1000); // 设置定位刷新时间为1.5秒
+        option.setScanSpan(1000); // 设置定位刷新时间为1秒
         mLocClient.setLocOption(option);
         mLocClient.start();
     }
@@ -256,8 +250,7 @@ public class SOSMapActivity extends AppCompatActivity {
             if (isFirstLoc) {
                 isFirstLoc = false;
                 // 设置地图中心为当前定位点
-                LatLng ll = new LatLng(latitude,
-                        longitude);
+                LatLng ll = new LatLng(latitude, longitude);
                 MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
                 mMap.animateMapStatus(u);
             }
@@ -301,6 +294,13 @@ public class SOSMapActivity extends AppCompatActivity {
 
         // 设置地理编码检索监听者
         geoCoder.setOnGetGeoCodeResultListener(listener);
+    }
+
+    // 根据获得的定位坐标反编码得到地理位置
+    public void getReverseGeoCode() {
+        // 执行反地理编码查询
+        geoCoder.reverseGeoCode(new ReverseGeoCodeOption()
+                .location(new LatLng(latitude, longitude)));
     }
 
     // 获取周围的用户，初始化neighbors列表
@@ -355,13 +355,6 @@ public class SOSMapActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    // 根据获得的定位坐标反编码得到地理位置
-    public void getReverseGeoCode() {
-        // 执行反地理编码查询
-        geoCoder.reverseGeoCode(new ReverseGeoCodeOption()
-                .location(new LatLng(latitude, longitude)));
     }
 
     // 将本条求救信息发送至后台服务器端存储

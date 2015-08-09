@@ -15,4 +15,6 @@
     <string name="title_activity_transition">TransitionActivity</string>
     <string name="title_activity_sosreceive_map">SOSReceiveMapActivity</string>
     <string name="title_activity_question_send">QuestionSendActivity</string>
+    <string name="title_activity_help_map">HelpMapActivity</string>
+    <string name="title_activity_help_submit">HelpSubmitActivity</string>
 </resources>

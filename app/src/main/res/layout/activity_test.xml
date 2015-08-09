@@ -29,4 +29,12 @@
         android:text="发送问题"
         android:layout_below="@id/map2"/>
 
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:id="@+id/help"
+        android:onClick="getSendHelp"
+        android:text="求助"
+        android:layout_below="@id/question"/>
+
 </RelativeLayout>
