@@ -152,6 +152,7 @@
         </activity>
         <activity
             android:name=".home.HomeActivity"
+            android:theme="@style/nLiveoDrawer"
             android:label="@string/title_activity_home" >
         </activity>
         <activity

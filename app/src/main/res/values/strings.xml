@@ -17,4 +17,11 @@
     <string name="title_activity_question_send">QuestionSendActivity</string>
     <string name="title_activity_help_map">HelpMapActivity</string>
     <string name="title_activity_help_submit">HelpSubmitActivity</string>
+    <string name="title_fragment_sos_view">求救</string>
+    <string name="title_fragment_help_view">求助</string>
+    <string name="title_fragment_question_view">问题</string>
+    <string name="title_fragment_neighbors_view">附近的事</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

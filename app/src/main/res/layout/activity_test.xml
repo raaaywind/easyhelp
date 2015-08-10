@@ -40,6 +40,14 @@
         android:text="求助"
         android:layout_below="@id/question"/>
 
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:id="@+id/home"
+        android:onClick="getHome"
+        android:text="主页"
+        android:layout_below="@id/help"/>
+
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/multiple_actions"
         android:layout_width="wrap_content"

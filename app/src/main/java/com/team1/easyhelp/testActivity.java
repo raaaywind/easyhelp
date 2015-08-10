@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.team1.easyhelp.home.HomeActivity;
 import com.team1.easyhelp.send.HelpMapActivity;
 import com.team1.easyhelp.send.QuestionSendActivity;
 import com.team1.easyhelp.send.SOSMapActivity;
@@ -63,5 +64,9 @@ public class testActivity extends AppCompatActivity {
     public void getSendHelp(View view) {
         menuMultipleActions.toggle();
         startActivity(new Intent(this, HelpMapActivity.class));
+    }
+
+    public void getHome(View view) {
+        startActivity(new Intent(this, HomeActivity.class));
     }
 }

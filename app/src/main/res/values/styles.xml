@@ -11,12 +11,22 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <!--Window color-->
         <item name="android:windowBackground">@color/ForegroudPrimary</item>
+
+        <item name="colorAccent">@color/nliveo_blue_colorPrimaryDark</item>
     </style>
 
 
     <style name="menu_labels_style">
         <item name="android:background">@drawable/fab_label_background</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!--Here will be the theme of the class that will extends NavigationLiveo-->
+    <style name="nLiveoDrawer" parent="Theme.nLiveo">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/nliveo_blue_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/nliveo_blue_alpha_colorPrimaryDark</item>
+        <item name="colorAccent">@color/nliveo_blue_colorPrimaryDark</item>
     </style>
 
 </resources>
