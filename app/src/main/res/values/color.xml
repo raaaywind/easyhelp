@@ -7,8 +7,8 @@
     <color name="ForegroudPrimary">#fafafa</color>
 
     <color name="TitleTextColor">#fdfdfe</color>
-    <color name="TabTextColor_selected">#fdfdfe</color>
-    <color name="TabTextColor_unselected">#75beb7</color>
+    <color name="TabTextColor_selected">#fefefe</color>
+    <color name="TabTextColor_unselected">#58f0f0f1</color>
     <color name="ListItemBackgroud">#b2ebf2</color>
 
     <color name="fabMainColor">#edfd41</color>

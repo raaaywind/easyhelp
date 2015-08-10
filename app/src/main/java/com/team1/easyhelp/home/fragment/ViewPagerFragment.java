@@ -20,14 +20,9 @@ import java.util.List;
  *
  */
 public class ViewPagerFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private List<TabPagerItem> mTabs = new ArrayList<>();
 
-//
-//    public ViewPagerFragment() {
-//        // Required empty public constructor
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,22 +64,5 @@ public class ViewPagerFragment extends Fragment {
         }
         mSlidingTabLayout.setupWithViewPager(mViewPager);
     }
-
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        public void onFragmentInteraction(Uri uri);
-//    }
 
 }
