@@ -1,6 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -36,5 +39,59 @@
         android:onClick="getSendHelp"
         android:text="求助"
         android:layout_below="@id/question"/>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/multiple_actions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        fab:fab_addButtonColorNormal="@color/yello"
+        fab:fab_addButtonColorPressed="@color/yello_pressed"
+        fab:fab_addButtonPlusIconColor="@color/half_black"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        >
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/sendsos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getMap2"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_title="发送求救"
+            fab:fab_colorPressed="@color/white_pressed"
+            fab:fab_size="mini"
+            fab:fab_icon="@drawable/ic_favorite_red_a200_18dp"
+            />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/sendhelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getSendHelp"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_title="发送求助"
+            fab:fab_colorPressed="@color/white_pressed"
+            fab:fab_size="mini"
+            fab:fab_icon="@drawable/ic_invert_colors_green_500_18dp"
+            />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/sendquestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getSendQue"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_title="发送提问"
+            fab:fab_colorPressed="@color/white_pressed"
+            fab:fab_size="mini"
+            fab:fab_icon="@drawable/ic_send_brown_500_18dp"
+            />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 </RelativeLayout>

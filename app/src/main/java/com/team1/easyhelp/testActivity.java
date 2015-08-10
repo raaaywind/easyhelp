@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.team1.easyhelp.send.HelpMapActivity;
 import com.team1.easyhelp.send.QuestionSendActivity;
 import com.team1.easyhelp.send.SOSMapActivity;
@@ -14,10 +15,13 @@ import com.team1.easyhelp.send.TransitionActivity;
 
 public class testActivity extends AppCompatActivity {
 
+    private FloatingActionsMenu menuMultipleActions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        menuMultipleActions = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
     }
 
     @Override
@@ -47,14 +51,17 @@ public class testActivity extends AppCompatActivity {
     }
 
     public void getMap2(View view) {
+        menuMultipleActions.toggle();
         startActivity(new Intent(this, TransitionActivity.class));
     }
 
     public void getSendQue(View view) {
+        menuMultipleActions.toggle();
         startActivity(new Intent(this, QuestionSendActivity.class));
     }
 
     public void getSendHelp(View view) {
+        menuMultipleActions.toggle();
         startActivity(new Intent(this, HelpMapActivity.class));
     }
 }
