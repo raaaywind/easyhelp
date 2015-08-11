@@ -40,7 +40,7 @@ public class HelpListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_neighbor, container, false);
+        rootView = inflater.inflate(R.layout.fragment_help_list, container, false);
         rootView.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         context = rootView.getContext();
