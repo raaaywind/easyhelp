@@ -6,13 +6,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.team1.easyhelp.R;
+import com.team1.easyhelp.entity.Event;
 
 public class QuestionReceiveActivity extends AppCompatActivity {
+
+    private Event question;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_receive);
+
+        initial();
     }
 
     @Override
@@ -35,5 +40,10 @@ public class QuestionReceiveActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initial() {
+        Bundle bundle = this.getIntent().getExtras();
+        question = (Event) bundle.getSerializable("event");
     }
 }
