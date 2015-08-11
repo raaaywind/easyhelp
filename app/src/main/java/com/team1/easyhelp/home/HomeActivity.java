@@ -11,9 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.team1.easyhelp.R;
 import com.team1.easyhelp.home.fragment.ViewPagerFragment;
 import com.team1.easyhelp.home.fragment.HomeFragment;
+import com.team1.easyhelp.send.HelpMapActivity;
+import com.team1.easyhelp.send.QuestionSendActivity;
+import com.team1.easyhelp.send.TransitionActivity;
 import com.team1.easyhelp.testActivity;
 
 import br.liveo.Model.HelpLiveo;
@@ -71,7 +75,7 @@ public class HomeActivity extends NavigationLiveo {
 
         // 将用户信息更新在左侧菜单栏上
         this.userName.setText(nickname);
-        this.userBackground.setImageResource(R.drawable.ic_user_background_first);
+        this.userBackground.setImageResource(R.drawable.ic_user_background_second);
         this.userPhoto.setImageResource(R.drawable.ic_account_circle_grey_200_48dp);
     }
 

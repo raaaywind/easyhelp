@@ -45,8 +45,8 @@ public class NeighborFragment extends Fragment {
 
     private static final String MAP_FRAGMENT = "MAP_FRAGMENT";
     private Context context;
-
     private View rootView;
+
     private MapView mapView;
     private BaiduMap mMap;
     private LocationClient mLocClient;
@@ -57,8 +57,6 @@ public class NeighborFragment extends Fragment {
     private BitmapDescriptor bitmap_sos;
 
     private int user_id;
-    private double latitude;
-    private double longitude;
     private List<Event> events;
 
     private Gson gson = new Gson();
@@ -89,7 +87,7 @@ public class NeighborFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true); // 控制是否自定义本Fragment的ToolBar
 
         new Thread(new Runnable() {
             @Override
@@ -190,8 +188,8 @@ public class NeighborFragment extends Fragment {
             // map view 销毁后不再处理新接收的位置
             if (location == null || mapView == null)
                 return;
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
 
             // 构造定位数据
             MyLocationData locData = new MyLocationData.Builder()
