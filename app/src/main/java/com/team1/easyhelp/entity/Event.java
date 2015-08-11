@@ -7,20 +7,23 @@ import java.io.Serializable;
  */
 public class Event implements Serializable {
 
-    private int follow_number;
-    private double latitude;
-    private String title;
-    private int type;
-    private String content;
-    private double group_pts;
-    private int support_number;
-    private String last_time;
     private int event_id;
     private int launcher_id;
-    private String time;
-    private int state;
     private String launcher;
+    private String title;
+    private String content;
+    private int type;
+    private String time;
+    private String last_time;
     private double longitude;
+    private double latitude;
+    private int state;
+    private int follow_number;
+    private int support_number;
+    private double group_pts;
+    private int demand_number;
+    private int love_coin;
+    private String comment;
 
     public void setFollow_number(int follow_number) {
         this.follow_number = follow_number;
@@ -78,6 +81,18 @@ public class Event implements Serializable {
         this.longitude = longitude;
     }
 
+    public void setDemand_number(int demand_number) {
+        this.demand_number = demand_number;
+    }
+
+    public void setLove_coin(int love_coin) {
+        this.love_coin = love_coin;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public int getFollow_number() {
         return follow_number;
     }
@@ -130,6 +145,18 @@ public class Event implements Serializable {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    public int getDemand_number() {
+        return demand_number;
+    }
+
+    public int getLove_coin() {
+        return love_coin;
+    }
+
+    public String getComment() {
+        return comment;
     }
 
 }

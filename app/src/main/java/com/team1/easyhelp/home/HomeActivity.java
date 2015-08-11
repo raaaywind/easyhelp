@@ -138,7 +138,5 @@ public class HomeActivity extends NavigationLiveo {
             }
             setElevationToolBar(position != 0 ? 15 : 0);
         }
-
-
     }
 }

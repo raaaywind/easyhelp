@@ -78,8 +78,8 @@ public class HelpMapActivity extends AppCompatActivity {
         mLocClient.stop();
         mMap.setMyLocationEnabled(false);
         geoCoder.destroy();
-        mapView.onDestroy();
         mPoiSearch.destroy();
+        mapView.onDestroy();
         mapView = null;
 
         super.onDestroy();
@@ -200,7 +200,6 @@ public class HelpMapActivity extends AppCompatActivity {
         mLocClient.setLocOption(option);
         mLocClient.start();
     }
-
 
 
     // 设置定位的监听器
@@ -326,7 +325,8 @@ public class HelpMapActivity extends AppCompatActivity {
         }
         @Override
         public boolean onPoiClick(int index) {
-            super.onPoiClick(index);PoiInfo poi = getPoiResult().getAllPoi().get(index);
+            super.onPoiClick(index);
+            PoiInfo poi = getPoiResult().getAllPoi().get(index);
             mPoiSearch.searchPoiDetail((new PoiDetailSearchOption())
                     .poiUid(poi.uid));
             return true;

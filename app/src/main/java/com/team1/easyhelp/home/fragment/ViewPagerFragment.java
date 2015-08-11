@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baidu.mapapi.map.BaiduMapOptions;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.SupportMapFragment;
 import com.team1.easyhelp.R;
 import com.team1.easyhelp.home.adapter.TabPagerItem;
 import com.team1.easyhelp.home.adapter.ViewPagerAdapter;
@@ -39,6 +42,12 @@ public class ViewPagerFragment extends Fragment {
                 HomeFragment.newInstance(getString(R.string.title_fragment_question_view))));
         mTabs.add(new TabPagerItem(getString(R.string.title_fragment_neighbors_view),
                 NeighborFragment.newInstance(getString(R.string.title_fragment_neighbors_view))));
+
+//        MapStatus ms = new MapStatus.Builder().overlook(-20).zoom(15).build();
+//        BaiduMapOptions bo = new BaiduMapOptions().mapStatus(ms)
+//                .compassEnabled(false).zoomControlsEnabled(false);
+//        SupportMapFragment map = SupportMapFragment.newInstance(bo);
+//        mTabs.add(new TabPagerItem("Map", map));
     }
 
     @Override

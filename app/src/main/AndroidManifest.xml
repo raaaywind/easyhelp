@@ -152,8 +152,7 @@
         </activity>
         <activity
             android:name=".home.HomeActivity"
-            android:theme="@style/nLiveoDrawer"
-            android:label="@string/title_activity_home" >
+            android:label="@string/title_activity_home">
         </activity>
         <activity
             android:name=".account.RegisterActivity"
@@ -198,6 +197,10 @@
         <activity
             android:name=".send.HelpSubmitActivity"
             android:label="@string/title_activity_help_submit" >
+        </activity>
+        <activity
+            android:name=".receive.HelpReceiveMapActivity"
+            android:label="@string/title_activity_help_receive_map" >
         </activity>
     </application>
 

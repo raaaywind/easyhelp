@@ -350,7 +350,8 @@ public class SOSMapActivity extends AppCompatActivity {
                 for (User user : neighbors) {
                     if (user.getId() != user_id) {
                         LatLng userLoc = new LatLng(user.getLatitude(), user.getLongitude());
-                        mMap.addOverlay(new MarkerOptions().position(userLoc).icon(bitmap0)); // 使用中尺寸的图标标记用户位置
+                        mMap.addOverlay(new MarkerOptions()
+                                .position(userLoc).icon(bitmap0)); // 使用中尺寸的图标标记用户位置
                     }
                 }
             }
