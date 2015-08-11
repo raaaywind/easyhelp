@@ -11,6 +11,6 @@
     <com.baidu.mapapi.map.MapView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/mapview" />
+        android:id="@+id/mapView" />
 
 </LinearLayout>

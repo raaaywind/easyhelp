@@ -145,7 +145,7 @@ public class NeighborFragment extends Fragment {
 
     // 初始化地图相关
     private void initialMap() {
-        mapView = (MapView) rootView.findViewById(R.id.mapview);
+        mapView = (MapView) rootView.findViewById(R.id.mapView);
         mMap = mapView.getMap();
         // 设为普通地图界面
         mMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);

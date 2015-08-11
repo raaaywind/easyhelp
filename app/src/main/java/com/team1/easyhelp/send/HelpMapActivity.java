@@ -161,7 +161,7 @@ public class HelpMapActivity extends AppCompatActivity {
 
     // 初始化地图显示
     private void initialMap() {
-        mapView = (MapView) findViewById(R.id.mapview);
+        mapView = (MapView) findViewById(R.id.mapView);
         mMap = mapView.getMap();
         // 设为普通地图界面
         mMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);

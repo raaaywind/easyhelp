@@ -339,7 +339,8 @@ public class SOSMapActivity extends AppCompatActivity {
             }
         }
         // 根据所得到的信息调用函数绘制标记
-        showNeighborsOnMap();
+        if (neighbors != null)
+            showNeighborsOnMap();
     }
 
     // 将获取到的neighbors信息显示在地图上
