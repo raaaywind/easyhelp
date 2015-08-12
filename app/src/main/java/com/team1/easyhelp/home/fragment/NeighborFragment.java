@@ -94,10 +94,13 @@ public class NeighborFragment extends Fragment {
             public void run() {
                 try {
                     boolean flag = true;
+                    int i = 0;
                     do {
                         if (flag)
-                            Thread.sleep(8000); // 若获取周围事件失败，则每过8秒重试一次
+                            Thread.sleep(10000); // 若获取周围事件失败，则每过10秒重试一次
                         flag = getNearbyEvents();
+                        if ((i++) == 3) // 循环4次后停止联网的尝试
+                            break;
                     } while(!flag);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

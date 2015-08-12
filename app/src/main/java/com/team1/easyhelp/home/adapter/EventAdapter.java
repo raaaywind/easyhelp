@@ -63,7 +63,7 @@ public class EventAdapter extends RecyclerView.Adapter {
         EventViewHolder holder = (EventViewHolder) viewHolder;
         holder.position = i; // 绑定每个ViewItem对应的holder
         Event event = eventList.get(i);
-        if (!event.getLauncher().equals("")) {
+        if (event.getLauncher() == null) {
             holder.nicknameTv.setText(event.getLauncher());
         } else {
             holder.nicknameTv.setText("无名");
