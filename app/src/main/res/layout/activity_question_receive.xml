@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@drawable/divider_shape"
-            android:showDividers="middle|end"
+            android:showDividers="beginning|middle"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/event_title"
@@ -44,23 +44,54 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
+                >
 
-                <TextView
+                <RelativeLayout
+                    android:id="@+id/follow"
+                    android:clickable="true"
+                    android:onClick="followQuestion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="添加回答"
-                    android:textSize="14sp"
-                    android:textColor="@color/secondary_text"/>
-                <TextView
+                    android:background="@drawable/horizon_divider"
+                    android:padding="8dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_remove_red_eye_black_18dp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="关注问题"
+                        android:textSize="16sp"
+                        android:textColor="@color/secondary_text"
+                        android:gravity="right" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/commit"
+                    android:clickable="true"
+                    android:onClick="commitAnswer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/horizon_divider"
                     android:layout_weight="1"
-                    android:text="添加回答"
-                    android:textSize="14sp"
-                    android:textColor="@color/secondary_text"/>
+                    android:padding="8dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_queue_black_18dp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="添加回答"
+                        android:textSize="16sp"
+                        android:textColor="@color/secondary_text"
+                        android:gravity="right" />
+                </RelativeLayout>
             </LinearLayout>
             <!--<RecyclerView-->
                 <!--android:layout_width="match_parent"-->
