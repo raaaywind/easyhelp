@@ -38,6 +38,7 @@ import com.team1.easyhelp.utils.RequestHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -56,7 +57,7 @@ public class NeighborFragment extends Fragment {
     private BitmapDescriptor bitmap_sos;
 
     private int user_id;
-    private List<Event> events;
+    private List<Event> events = new ArrayList<>();
 
     private Gson gson = new Gson();
 
@@ -91,8 +92,16 @@ public class NeighborFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                getNearbyEvents();
-//                showNearbyEventsOnMap();
+                try {
+                    boolean flag = true;
+                    do {
+                        if (flag)
+                            Thread.sleep(8000); // 若获取周围事件失败，则每过8秒重试一次
+                        flag = getNearbyEvents();
+                    } while(!flag);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }).start();
     }
@@ -210,7 +219,7 @@ public class NeighborFragment extends Fragment {
     }
 
     // 获取发生在周围的事件，初始化事件列表
-    private void getNearbyEvents() {
+    private boolean getNearbyEvents() {
         String jsonString = "{" +
                 "\"id\":" + user_id +
                 ",\"state\":0" + "}";
@@ -224,6 +233,7 @@ public class NeighborFragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
                 }
             });
+            return false;
         } else {
             try {
                 JSONObject jO = new JSONObject(message);
@@ -235,16 +245,19 @@ public class NeighborFragment extends Fragment {
                                     Toast.LENGTH_SHORT).show();
                         }
                     });
-                    return;
+                    return false;
                 }
                 String jsonStringList = jO.getString("event_list");
                 events = gson.fromJson(jsonStringList, new TypeToken<List<Event>>(){}
                         .getType());
+                // 周围的事件获取成功后再将其更新到UI界面上
                 showNearbyEventsOnMap();
+                return true;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+        return false;
     }
 
     // 将获取到的事件列表显示在地图上
