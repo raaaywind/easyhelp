@@ -68,6 +68,7 @@ public class EventAdapter extends RecyclerView.Adapter {
         } else {
             holder.nicknameTv.setText(event.getLauncher());
         }
+        holder.avatarTv.setImageBitmap(event.getPortrait());
         holder.dateTv.setText(event.getTime());
         holder.coinTv.setText("爱心币: " + Integer.toString(event.getLove_coin()));
         holder.titleTv.setText(event.getTitle());
@@ -88,11 +89,14 @@ public class EventAdapter extends RecyclerView.Adapter {
         public TextView dateTv;
         public TextView coinTv;
         public TextView titleTv;
+        public de.hdodenhof.circleimageview.CircleImageView avatarTv;
         public int position;
 
         public EventViewHolder(View itemView) {
             super(itemView);
             // 绑定itemView当中的UI控件
+            avatarTv = (de.hdodenhof.circleimageview.CircleImageView)
+                    itemView.findViewById(R.id.avatar);
             nicknameTv = (TextView) itemView.findViewById(R.id.nickname);
             dateTv = (TextView) itemView.findViewById(R.id.edit_date);
             coinTv = (TextView) itemView.findViewById(R.id.love_coin);

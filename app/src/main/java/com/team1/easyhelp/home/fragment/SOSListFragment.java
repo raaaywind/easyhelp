@@ -2,7 +2,10 @@ package com.team1.easyhelp.home.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,11 +21,15 @@ import com.team1.easyhelp.R;
 import com.team1.easyhelp.entity.Event;
 import com.team1.easyhelp.home.adapter.EventAdapter;
 import com.team1.easyhelp.utils.ACache;
-import com.team1.easyhelp.utils.RequestHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +48,7 @@ public class SOSListFragment extends Fragment {
     private ACache eventCache; // 事件的缓存
     private int user_id;
     private List<Event> events = new ArrayList<>();
+    private Bitmap defaultPortrait;
 
     private Gson gson = new Gson();
 
@@ -93,9 +101,14 @@ public class SOSListFragment extends Fragment {
         // 使视图保持固定的大小
         sosListView.setHasFixedSize(true);
 
-//        mSwipeLayout.setOnRefreshListener(this);
-//        mSwipeLayout.setColorScheme(android.R.color.holo_green_dark, android.R.color.holo_green_light,
-//                android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        // get eventCache
+        //eventCache = ACache.get(getActivity());
+
+        mSwipeLayout.setOnRefreshListener(new MySwipeRefreshListener());
+        mSwipeLayout.setColorScheme(android.R.color.holo_green_dark,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 
     // 初始化视图的数据源
@@ -106,6 +119,19 @@ public class SOSListFragment extends Fragment {
                 try {
                     boolean flag = true;
                     int i = 0;
+
+                    //获取默认头像
+                    do {
+                        if (!flag)
+                            Thread.sleep(10000); // 若联网失败，则每过10秒重新联网一次
+                        flag = getDefault();
+                        if ((i++) == 3) // 循环4次后停止联网的尝试
+                            break;
+                    } while (!flag);
+
+                    //获取附近的事
+                    flag = true;
+                    i = 0;
                     do {
                         if (!flag)
                             Thread.sleep(10000); // 若联网失败，则每过10秒重新联网一次
@@ -113,6 +139,7 @@ public class SOSListFragment extends Fragment {
                         if ((i++) == 3) // 循环4次后停止联网的尝试
                             break;
                     } while (!flag);
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -164,6 +191,7 @@ public class SOSListFragment extends Fragment {
                 String jsonStringList = jO.getString("event_list");
                 events = gson.fromJson(jsonStringList, new TypeToken<List<Event>>(){}
                         .getType());
+                setPortrait();
                 // 等待事件获取成功以后再使用其重新初始化Adapter
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
@@ -177,6 +205,61 @@ public class SOSListFragment extends Fragment {
             }
         }
         return false;
+    }
+
+    //在event中放入头像
+    public void setPortrait() {
+        for (int i = 0; i < events.size(); i++) {
+            int launcher_id = events.get(i).getLauncherId();
+//                String url = "http://120.24.208.130:1501/avatar/" +
+//                        launcher_id + ".jpg";
+
+//            String url = "http://p2.gexing.com/qqpifu/20120825/1725/50389a046881e_600x.jpg";
+//            Bitmap image = returnBitMap(url);
+//            if (image == null) {
+//                image = defaultPortrait;
+//            }
+            events.get(i).setPortrait(defaultPortrait);
+            //eventCache.put("SOSListTouxiang" + i, image);
+        }
+    }
+
+    /*
+    * 获取默认头像
+    * */
+    public Boolean getDefault() {
+        if (defaultPortrait == null) {
+            //String url = "http://120.24.208.130:1501/avatar/touxiang.jpg";
+            String url = "http://p2.gexing.com/qqpifu/20120825/1725/50389a046881e_600x.jpg";
+            defaultPortrait = returnBitMap(url);
+            //eventCache.put("morentouxiang", defaultPortrait);
+        }
+        return !(defaultPortrait == null);
+    }
+
+    //URL转Bitmap
+    public Bitmap returnBitMap(String url_){
+        final String url = url_;
+        Bitmap bitmap = null;
+        URL myFileUrl = null;
+        try {
+            myFileUrl = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        try {
+            HttpURLConnection conn = (HttpURLConnection) myFileUrl
+                    .openConnection();
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return bitmap;
     }
 
     public class EventListListener implements EventAdapter.OnRecyclerViewListener {
@@ -196,7 +279,27 @@ public class SOSListFragment extends Fragment {
 
     public class MySwipeRefreshListener implements SwipeRefreshLayout.OnRefreshListener {
         @Override
-    public void onRefresh() {}
+        public void onRefresh() {
+            mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
+        }
+
+
+        private Handler mHandler = new Handler()
+        {
+            public void handleMessage(android.os.Message msg)
+            {
+                switch (msg.what)
+                {
+                    case REFRESH_COMPLETE:
+                        getNearbyEvents();
+//                    eventCache = SOS.getRemoteTitleList(2);
+//                    setList(); // change the data in listview
+                        mSwipeLayout.setRefreshing(false);
+                        break;
+                }
+                super.handleMessage(msg);
+            }
+        };
     }
 
 }
