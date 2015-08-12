@@ -14,7 +14,7 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
             app:tabIndicatorColor="@color/accent"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:tabPaddingStart="20dp"
             app:tabPaddingEnd="20dp"
@@ -26,7 +26,6 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/nliveo_gray"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
@@ -37,8 +36,8 @@
         android:layout_margin="16dp"
         app:layout_anchor="@id/viewPager"
         app:layout_anchorGravity="bottom|right|end"
-        fab:fab_addButtonColorNormal="@color/nliveo_blue_gray_colorPrimaryDark"
-        fab:fab_addButtonColorPressed="@color/white_pressed"
+        fab:fab_addButtonColorNormal="@color/blue_semi_transparent"
+        fab:fab_addButtonColorPressed="@color/blue_semi_transparent_pressed"
         fab:fab_addButtonPlusIconColor="@color/white"
         fab:fab_labelStyle="@style/menu_labels_style"
         >

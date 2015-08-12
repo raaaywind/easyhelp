@@ -41,14 +41,15 @@ public class ViewPagerFragment extends Fragment {
     }
 
     private void createTabPagerItem() {
+        mTabs.add(new TabPagerItem(getString(R.string.title_fragment_neighbors_view),
+                NeighborFragment.newInstance(getString(R.string.title_fragment_neighbors_view))));
         mTabs.add(new TabPagerItem(getString(R.string.title_fragment_help_view),
                 HelpListFragment.newInstance(getString(R.string.title_fragment_help_view))));
         mTabs.add(new TabPagerItem(getString(R.string.title_fragment_sos_view),
                 SOSListFragment.newInstance(getString(R.string.title_fragment_sos_view))));
         mTabs.add(new TabPagerItem(getString(R.string.title_fragment_question_view),
                 QuestionListFragment.newInstance(getString(R.string.title_fragment_question_view))));
-        mTabs.add(new TabPagerItem(getString(R.string.title_fragment_neighbors_view),
-                NeighborFragment.newInstance(getString(R.string.title_fragment_neighbors_view))));
+
     }
 
     @Override

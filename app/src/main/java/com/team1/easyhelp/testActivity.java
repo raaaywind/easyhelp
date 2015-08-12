@@ -9,6 +9,8 @@ import android.view.View;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.team1.easyhelp.home.HomeActivity;
+import com.team1.easyhelp.receive.HelpReceiveMapActivity;
+import com.team1.easyhelp.receive.QuestionReceiveActivity;
 import com.team1.easyhelp.send.HelpMapActivity;
 import com.team1.easyhelp.send.QuestionSendActivity;
 import com.team1.easyhelp.send.SOSMapActivity;
@@ -68,5 +70,9 @@ public class testActivity extends AppCompatActivity {
 
     public void getHome(View view) {
         startActivity(new Intent(this, HomeActivity.class));
+    }
+
+    public void viewQuestion(View view) {
+        startActivity(new Intent(this, QuestionReceiveActivity.class));
     }
 }

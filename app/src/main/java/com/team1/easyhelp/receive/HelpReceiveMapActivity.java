@@ -88,8 +88,9 @@ public class HelpReceiveMapActivity extends AppCompatActivity {
     private void initial() {
         // 获取该页面所需的event信息
         Bundle bundle = this.getIntent().getExtras();
-        help = (Event) bundle.getSerializable("event");
-
+        if (bundle != null) {
+            help = (Event) bundle.getSerializable("event");
+        }
         initialToolbar();
         initialIcon();
         initialMap();

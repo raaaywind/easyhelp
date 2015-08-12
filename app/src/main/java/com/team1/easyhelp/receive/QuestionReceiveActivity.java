@@ -44,6 +44,7 @@ public class QuestionReceiveActivity extends AppCompatActivity {
 
     private void initial() {
         Bundle bundle = this.getIntent().getExtras();
-        question = (Event) bundle.getSerializable("event");
+        if (bundle != null)
+            question = (Event) bundle.getSerializable("event");
     }
 }

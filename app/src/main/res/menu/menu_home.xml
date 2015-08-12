@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.team1.easyhelp.home.HomeActivity">
-    <item android:id="@+id/action_settings" android:title="私信"
+    <item android:id="@+id/message" android:title="私信"
         android:icon="@drawable/ic_local_post_office_white_24dp"
         android:orderInCategory="100" app:showAsAction="ifRoom" />
 </menu>

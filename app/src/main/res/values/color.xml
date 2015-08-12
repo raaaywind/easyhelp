@@ -24,10 +24,11 @@
     <color name="primary_dark">#303F9F</color>
     <color name="primary_light">#e8dadfff</color>
     <color name="accent">#FF5722</color>
-    <color name="primary_text">#212121</color>
-    <color name="secondary_text">#727272</color>
+    <color name="primary_text">#FF212121</color>
+    <color name="secondary_text">#90212121</color>
     <color name="icons">#FFFFFF</color>
-    <color name="divider">#B6B6B6</color>
+    <color name="divider">#a88c8c8c</color>
+    <color name="primary_title">#d6303f9f</color>
 
 
     <!--Float Action Bar的配色方案-->

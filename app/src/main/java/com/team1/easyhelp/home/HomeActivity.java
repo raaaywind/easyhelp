@@ -54,7 +54,8 @@ public class HomeActivity extends NavigationLiveo {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.message) {
+            Toast.makeText(HomeActivity.this, "message", Toast.LENGTH_SHORT).show();
             return true;
         }
 
