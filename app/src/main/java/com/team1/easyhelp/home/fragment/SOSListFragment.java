@@ -115,30 +115,6 @@ public class SOSListFragment extends Fragment {
         sosListView.setAdapter(sosAdapter);
     }
 
-//    // 响应下拉刷新事件
-//    @Override
-//    public void onRefresh()
-//    {
-//        mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
-//    }
-//
-//    private Handler mHandler = new Handler()
-//    {
-//        public void handleMessage(android.os.Message msg)
-//        {
-//            switch (msg.what)
-//            {
-//                case REFRESH_COMPLETE:
-//                    eventCache = sosAdapter.getRemoteTitleList(0);
-//                    setList(); // change the data in listview
-//                    mSwipeLayout.setRefreshing(false);
-//                    break;
-//            }
-//            super.handleMessage(msg);
-//        }
-//    };
-
-
     // 获取周围发生的事件
     private void getNearbyEvents() {
         String jsonString = "{" +
