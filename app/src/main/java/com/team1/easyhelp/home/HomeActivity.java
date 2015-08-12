@@ -18,6 +18,7 @@ import com.team1.easyhelp.home.fragment.HomeFragment;
 import com.team1.easyhelp.send.HelpMapActivity;
 import com.team1.easyhelp.send.QuestionSendActivity;
 import com.team1.easyhelp.send.TransitionActivity;
+import com.team1.easyhelp.setting.SettingMenuActivity;
 import com.team1.easyhelp.testActivity;
 
 import br.liveo.Model.HelpLiveo;
@@ -121,7 +122,7 @@ public class HomeActivity extends NavigationLiveo {
     private View.OnClickListener onClickFooter = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            startActivity(new Intent(getApplicationContext(), testActivity.class));
+            startActivity(new Intent(getApplicationContext(), SettingMenuActivity.class));
             closeDrawer();
         }
     };
