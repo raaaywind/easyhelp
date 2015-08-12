@@ -65,7 +65,7 @@ public class EventAdapter extends RecyclerView.Adapter {
         Event event = eventList.get(i);
         holder.nicknameTv.setText(event.getLauncher());
         holder.dateTv.setText(event.getTime());
-        holder.coinTv.setText(Integer.toString(event.getLove_coin()));
+        holder.coinTv.setText("爱心币: " + Integer.toString(event.getLove_coin()));
         holder.titleTv.setText(event.getTitle());
     }
 

@@ -33,10 +33,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
+        android:layout_margin="22dp"
         app:layout_anchor="@id/viewPager"
         app:layout_anchorGravity="bottom|right|end"
-        fab:fab_addButtonColorNormal="@color/blue_semi_transparent"
+        fab:fab_addButtonColorNormal="@color/blue_gray"
         fab:fab_addButtonColorPressed="@color/blue_semi_transparent_pressed"
         fab:fab_addButtonPlusIconColor="@color/white"
         fab:fab_labelStyle="@style/menu_labels_style"
@@ -76,4 +76,5 @@
             />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
 </android.support.design.widget.CoordinatorLayout>

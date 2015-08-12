@@ -34,13 +34,14 @@
     <!--Float Action Bar的配色方案-->
     <color name="black_semi_transparent">#ac282828</color>
     <color name="background">#e5e5e5</color>
-    <color name="half_black">#cecece</color>
+    <color name="half_black">#ececec</color>
     <color name="white">#fafafa</color>
     <color name="white_pressed">#9E9E9E</color>
-    <color name="yello">#edfd41</color>
+    <color name="yello">#a9fde700</color>
     <color name="yello_pressed">#FFF9C4</color>
     <color name="red">#F44336</color>
     <color name="red_pressed">#FFCDD2</color>
+    <color name="blue_gray">#ce263238</color>
     <color name="blue_semi_transparent">#805677fc</color>
     <color name="blue_semi_transparent_pressed">#80738ffe</color>
 
