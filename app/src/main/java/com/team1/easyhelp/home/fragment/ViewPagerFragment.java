@@ -10,13 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.baidu.mapapi.map.BaiduMapOptions;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.SupportMapFragment;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.team1.easyhelp.R;
-import com.team1.easyhelp.home.HomeActivity;
 import com.team1.easyhelp.home.adapter.TabPagerItem;
 import com.team1.easyhelp.home.adapter.ViewPagerAdapter;
 import com.team1.easyhelp.send.HelpMapActivity;
@@ -46,11 +42,11 @@ public class ViewPagerFragment extends Fragment {
 
     private void createTabPagerItem() {
         mTabs.add(new TabPagerItem(getString(R.string.title_fragment_help_view),
-                HomeFragment.newInstance(getString(R.string.title_fragment_help_view))));
+                HelpListFragment.newInstance(getString(R.string.title_fragment_help_view))));
         mTabs.add(new TabPagerItem(getString(R.string.title_fragment_sos_view),
-                HomeFragment.newInstance(getString(R.string.title_fragment_sos_view))));
+                SOSListFragment.newInstance(getString(R.string.title_fragment_sos_view))));
         mTabs.add(new TabPagerItem(getString(R.string.title_fragment_question_view),
-                HomeFragment.newInstance(getString(R.string.title_fragment_question_view))));
+                QuestionListFragment.newInstance(getString(R.string.title_fragment_question_view))));
         mTabs.add(new TabPagerItem(getString(R.string.title_fragment_neighbors_view),
                 NeighborFragment.newInstance(getString(R.string.title_fragment_neighbors_view))));
     }
@@ -67,12 +63,15 @@ public class ViewPagerFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
         ViewPager mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
 
+        // 为ViewPager视图内添加适配器的页面内容
         mViewPager.setOffscreenPageLimit(mTabs.size());
         mViewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager(), mTabs));
-        TabLayout mSlidingTabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
 
+        // 将顶部tabLayout与ViewPager视图关联
+        TabLayout mSlidingTabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mSlidingTabLayout.setElevation(15);
         }

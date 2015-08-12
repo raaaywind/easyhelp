@@ -52,7 +52,6 @@ public class NeighborFragment extends Fragment {
     private LocationClient mLocClient;
     public MyLocationListener myListener = new MyLocationListener();
     boolean isFirstLoc = true;
-    private List<Marker> markerList;
     private BitmapDescriptor bitmap_help;
     private BitmapDescriptor bitmap_sos;
 
@@ -93,7 +92,7 @@ public class NeighborFragment extends Fragment {
             @Override
             public void run() {
                 getNearbyEvents();
-                showNearbyEventsOnMap();
+//                showNearbyEventsOnMap();
             }
         }).start();
     }
@@ -241,6 +240,7 @@ public class NeighborFragment extends Fragment {
                 String jsonStringList = jO.getString("event_list");
                 events = gson.fromJson(jsonStringList, new TypeToken<List<Event>>(){}
                         .getType());
+                showNearbyEventsOnMap();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
