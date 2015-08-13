@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -19,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.baidu.mapapi.map.BitmapDescriptor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.team1.easyhelp.R;
@@ -58,8 +54,6 @@ public class SOSListFragment extends Fragment {
     private Bitmap defaultPortrait;
 
     private Gson gson = new Gson();
-
-    private Bitmap defaultPortrait;
 
 
     public static SOSListFragment newInstance(String text) {
