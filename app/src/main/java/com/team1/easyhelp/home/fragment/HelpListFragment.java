@@ -2,6 +2,7 @@ package com.team1.easyhelp.home.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.google.gson.reflect.TypeToken;
 import com.team1.easyhelp.R;
 import com.team1.easyhelp.entity.Event;
 import com.team1.easyhelp.home.adapter.EventAdapter;
+import com.team1.easyhelp.receive.HelpReceiveMapActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,7 +45,7 @@ public class HelpListFragment extends Fragment {
 
     private int user_id;
     private RecyclerView HelpListView;
-    private EventAdapter sosAdapter;
+    private EventAdapter helpAdapter;
     private List<Event> events = new ArrayList<>();
     private Bitmap defaultPortrait;
     private static final int REFRESH_COMPLETE = 2;
@@ -147,9 +149,9 @@ public class HelpListFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         HelpListView.setLayoutManager(layoutManager);
 
-        sosAdapter = new EventAdapter(events);
-        sosAdapter.setOnRecyclerViewListener(new EventListListener());
-        HelpListView.setAdapter(sosAdapter);
+        helpAdapter = new EventAdapter(events);
+        helpAdapter.setOnRecyclerViewListener(new EventListListener());
+        HelpListView.setAdapter(helpAdapter);
     }
 
     // 获取周围发生的事件
@@ -186,7 +188,7 @@ public class HelpListFragment extends Fragment {
                 String jsonStringList = jO.getString("event_list");
                 events = gson.fromJson(jsonStringList, new TypeToken<List<Event>>(){}
                         .getType());
-                setPortrait();
+                //setPortrait();
                 // 等待事件获取成功以后再使用其重新初始化Adapter
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
@@ -261,8 +263,13 @@ public class HelpListFragment extends Fragment {
         // 设置列表中item点击后的触发事件
         @Override
         public void onItemClick(int position) {
-            Toast.makeText(context, "位置" + position,
-                    Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context,
+                    HelpReceiveMapActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("event", events.get(position));
+            intent.putExtras(bundle);
+
+            context.startActivity(intent);
         }
 
         // 设置列表中item长按后的触发事件
