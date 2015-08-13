@@ -334,13 +334,13 @@ public class SOSMapActivity extends AppCompatActivity {
                 String jsonStringList = jO.getString("iid_list");
                 neighbors = gson.fromJson(jsonStringList, new TypeToken<List<User>>(){}
                         .getType());
+
+                // 将得到的neighbors显示在地图上
+                showNeighborsOnMap();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        // 根据所得到的信息调用函数绘制标记
-        if (neighbors != null)
-            showNeighborsOnMap();
     }
 
     // 将获取到的neighbors信息显示在地图上

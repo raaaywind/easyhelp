@@ -93,10 +93,10 @@
                         android:gravity="right" />
                 </RelativeLayout>
             </LinearLayout>
-            <!--<RecyclerView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-            <!--</RecyclerView>-->
+            <RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </RecyclerView>
         </LinearLayout>
     </LinearLayout>
 

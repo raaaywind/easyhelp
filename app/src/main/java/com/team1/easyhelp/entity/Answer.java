@@ -7,6 +7,7 @@ public class Answer {
     private int id;
     private int event_id;
     private int author_id;
+    private String author;
     private String content;
     private String time;
     private int is_adopted;
@@ -36,6 +37,10 @@ public class Answer {
         this.author_id = author_id;
     }
 
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     public void setTime(String time) {
         this.time = time;
     }
@@ -61,6 +66,10 @@ public class Answer {
     }
 
     public int getAuthoridId() { return author_id; }
+
+    public String getAuthor() {
+        return author;
+    }
 
     public String getTime() {
         return time;

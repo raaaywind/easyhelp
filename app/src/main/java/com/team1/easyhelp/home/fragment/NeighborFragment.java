@@ -89,6 +89,7 @@ public class NeighborFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 //        setHasOptionsMenu(true); // 控制是否自定义本Fragment的ToolBar
 
+        // 从后台线程联网获取信息，初始化地图
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -96,7 +97,7 @@ public class NeighborFragment extends Fragment {
                     boolean flag = true;
                     int i = 0;
                     do {
-                        if (flag)
+                        if (!flag)
                             Thread.sleep(10000); // 若获取周围事件失败，则每过10秒重试一次
                         flag = getNearbyEvents();
                         if ((i++) == 3) // 循环4次后停止联网的尝试
@@ -228,6 +229,7 @@ public class NeighborFragment extends Fragment {
                 ",\"state\":0" + "}";
         String message = RequestHandler.sendPostRequest(
                 "http://120.24.208.130:1501/event/get_nearby_event", jsonString);
+        message = "{\"status\": 200, \"event_list\": [{\"comment\": null, \"love_coin\": 0, \"title\": \"helppppppp\", \"event_id\": 292, \"follow_number\": 0, \"support_number\": 0, \"longitude\": 113.394203, \"content\": null, \"state\": 0, \"launcher_id\": 24, \"location\": null, \"time\": \"2015-08-04 16:42:19\", \"latitude\": 23.181321, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-08-04 22:35:40\", \"group_pts\": 0.0}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 291, \"follow_number\": 1, \"support_number\": 0, \"longitude\": 113.394203, \"content\": null, \"state\": 0, \"launcher_id\": 24, \"location\": null, \"time\": \"2015-08-04 15:51:51\", \"latitude\": 23.201321, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-08-04 22:35:40\", \"group_pts\": 0.0}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 241, \"follow_number\": 1, \"support_number\": 0, \"longitude\": 113.394203, \"content\": null, \"state\": 0, \"launcher_id\": 24, \"location\": null, \"time\": \"2015-08-04 15:50:35\", \"latitude\": 23.101321, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-08-04 16:39:25\", \"group_pts\": 0.0}, {\"title\": \"sos\", \"event_id\": 219, \"follow_number\": 0, \"longitude\": 113.399994, \"content\": null, \"state\": 0, \"launcher_id\": 21, \"time\": \"2015-07-31 16:33:21\", \"latitude\": 23.070954, \"type\": 2, \"last_time\": \"2015-07-31 16:33:21\"}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 218, \"follow_number\": 0, \"support_number\": 0, \"longitude\": 113.39359, \"content\": null, \"launcher\": \"18620730866\", \"state\": 0, \"launcher_id\": 21, \"location\": null, \"time\": \"2015-07-31 15:53:33\", \"latitude\": 23.072123, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-07-31 15:53:34\", \"group_pts\": 0.0}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 215, \"follow_number\": 0, \"support_number\": 1, \"longitude\": 113.393558, \"content\": null, \"launcher\": \"18620730866\", \"state\": 0, \"launcher_id\": 21, \"location\": null, \"time\": \"2015-07-31 15:53:15\", \"latitude\": 23.072134, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-07-31 15:53:15\", \"group_pts\": 0.0}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 206, \"follow_number\": 0, \"support_number\": 1, \"longitude\": 113.393559, \"content\": null, \"launcher\": \"18620730866\", \"state\": 0, \"launcher_id\": 21, \"location\": null, \"time\": \"2015-07-31 15:49:08\", \"latitude\": 23.072129, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-07-31 15:49:08\", \"group_pts\": 0.0}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 206, \"follow_number\": 0, \"support_number\": 1, \"longitude\": 113.398225, \"content\": null, \"launcher\": \"18620730866\", \"state\": 0, \"launcher_id\": 21, \"location\": null, \"time\": \"2015-07-31 15:30:25\", \"latitude\": 23.066616, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-07-31 15:30:25\", \"group_pts\": 0.0}]}";
         if (message.equals("false")) {
             ((Activity)context).runOnUiThread(new Runnable() {
                 @Override
@@ -253,6 +255,7 @@ public class NeighborFragment extends Fragment {
                 String jsonStringList = jO.getString("event_list");
                 events = gson.fromJson(jsonStringList, new TypeToken<List<Event>>(){}
                         .getType());
+
                 // 周围的事件获取成功后再将其更新到UI界面上
                 showNearbyEventsOnMap();
                 return true;
