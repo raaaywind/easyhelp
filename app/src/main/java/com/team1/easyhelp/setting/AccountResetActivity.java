@@ -31,6 +31,7 @@ public class AccountResetActivity extends AppCompatActivity {
     private TextView Account;
     private User user;
     private Gson gson = new Gson();
+    String message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,11 @@ public class AccountResetActivity extends AppCompatActivity {
         user_id = sharedPref.getInt("user_id", -1);
         get_phonenum();
         Account = (TextView)findViewById(R.id.id_);
+        if (message.equals("false")) {
+            Toast.makeText(getApplicationContext(), "无法获取数据，请检查网络连接",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
         Account.setText(user.getPhone());
     }
 
@@ -74,7 +80,7 @@ public class AccountResetActivity extends AppCompatActivity {
     public void get_phonenum() {
         String jsonString = "{" +
                 "\"id\":" + user_id + "}";
-        String message = RequestHandler.sendPostRequest("http://120.24.208.130:1501/user/get_information", jsonString);
+        message = RequestHandler.sendPostRequest("http://120.24.208.130:1501/user/get_information", jsonString);
         if (message.equals("false")) {
             runOnUiThread(new Runnable() {
                 @Override
@@ -107,7 +113,7 @@ public class AccountResetActivity extends AppCompatActivity {
         String temp = user.getPhone();
         Intent intent = new Intent(AccountResetActivity.this, ChangePassword.class);
         intent.putExtra("phone", temp);
-        intent.putExtra("user_id",user.getId());
+        intent.putExtra("user_id", user.getId());
         startActivity(intent);
     }
 }
