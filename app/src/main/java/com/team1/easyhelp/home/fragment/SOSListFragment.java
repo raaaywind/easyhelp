@@ -23,7 +23,6 @@ import com.team1.easyhelp.entity.Event;
 import com.team1.easyhelp.home.adapter.EventAdapter;
 import com.team1.easyhelp.receive.SOSReceiveMapActivity;
 import com.team1.easyhelp.utils.ACache;
-import com.team1.easyhelp.utils.RequestHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
