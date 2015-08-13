@@ -1,18 +1,21 @@
 package com.team1.easyhelp.setting;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.team1.easyhelp.R;
 import com.team1.easyhelp.entity.User;
+import com.team1.easyhelp.setting.PrivacySafe.ChangePassword;
 import com.team1.easyhelp.utils.RequestHandler;
 
 import org.json.JSONException;
@@ -98,5 +101,13 @@ public class AccountResetActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void change_password(View b) {
+        String temp = user.getPhone();
+        Intent intent = new Intent(AccountResetActivity.this, ChangePassword.class);
+        intent.putExtra("phone", temp);
+        intent.putExtra("user_id",user.getId());
+        startActivity(intent);
     }
 }

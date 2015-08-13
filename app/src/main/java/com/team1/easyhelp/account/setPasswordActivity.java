@@ -31,6 +31,8 @@ public class setPasswordActivity extends AppCompatActivity {
     private String password;
     private String password2;
     private String registrationID;
+    private String jsonString;
+    private String message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

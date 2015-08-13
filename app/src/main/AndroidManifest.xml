@@ -215,6 +215,10 @@
             android:label="@string/title_activity_account_reset" >
         </activity>
         <activity
+            android:name=".setting.PrivacySafe.ChangePassword"
+            android:label="@string/title_activity_account_reset" >
+        </activity>
+        <activity
             android:name=".send.AnswerSendActivity"
             android:label="@string/title_activity_answer_send" >
         </activity>
