@@ -1,6 +1,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.team1.easyhelp.receive.QuestionReceiveActivity">
 
     <LinearLayout
@@ -17,7 +19,7 @@
             android:showDividers="beginning|middle"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/event_title"
+                android:id="@+id/event_title_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
@@ -28,76 +30,90 @@
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp" />
             <TextView
-                android:id="@+id/event_content"
+                android:id="@+id/event_content_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="@color/secondary_text"
-                android:text="事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述"
+                android:text="事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述
+                事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描
+
+
+                事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述
+                事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述
+                事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述
+                事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述
+                事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述
+                事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述事件描述"
                 android:padding="8dp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
+            android:orientation="horizontal"
+            >
+
+            <RelativeLayout
+                android:id="@+id/follow"
+                android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-
-                <RelativeLayout
-                    android:id="@+id/follow"
-                    android:clickable="true"
-                    android:onClick="followQuestion"
-                    android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/horizon_divider"
+                android:padding="8dp">
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/horizon_divider"
-                    android:padding="8dp">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_remove_red_eye_black_18dp"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:text="关注问题"
-                        android:textSize="16sp"
-                        android:textColor="@color/secondary_text"
-                        android:gravity="right" />
-                </RelativeLayout>
-                <RelativeLayout
-                    android:id="@+id/commit"
-                    android:clickable="true"
-                    android:onClick="commitAnswer"
-                    android:layout_width="match_parent"
+                    android:src="@drawable/ic_remove_red_eye_black_18dp"
+                    />
+                <TextView
+                    android:id="@+id/followText"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/horizon_divider"
-                    android:layout_weight="1"
-                    android:padding="8dp">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_queue_black_18dp"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:text="添加回答"
-                        android:textSize="16sp"
-                        android:textColor="@color/secondary_text"
-                        android:gravity="right" />
-                </RelativeLayout>
-            </LinearLayout>
-            <RecyclerView
+                    android:layout_centerHorizontal="true"
+                    android:text="关注问题"
+                    android:textSize="16sp"
+                    android:textColor="@color/secondary_text"
+                    android:gravity="right" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/commit"
+                android:clickable="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </RecyclerView>
+                android:layout_height="wrap_content"
+                android:background="@drawable/horizon_divider"
+                android:layout_weight="1"
+                android:padding="8dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_queue_black_18dp"
+                    />
+                <TextView
+                    android:id="@+id/commitText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="添加回答"
+                    android:textSize="16sp"
+                    android:textColor="@color/secondary_text"
+                    android:gravity="right" />
+            </RelativeLayout>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/answer_list_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
     </LinearLayout>
+
 
 </ScrollView>

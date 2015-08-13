@@ -2,6 +2,9 @@ package com.team1.easyhelp.home.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,17 +15,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.baidu.mapapi.map.BitmapDescriptor;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.team1.easyhelp.R;
 import com.team1.easyhelp.entity.Event;
 import com.team1.easyhelp.home.adapter.EventAdapter;
+import com.team1.easyhelp.receive.SOSReceiveMapActivity;
 import com.team1.easyhelp.utils.ACache;
 import com.team1.easyhelp.utils.RequestHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +53,8 @@ public class SOSListFragment extends Fragment {
     private List<Event> events = new ArrayList<>();
 
     private Gson gson = new Gson();
+
+    private Bitmap defaultPortrait;
 
 
     public static SOSListFragment newInstance(String text) {
@@ -130,16 +142,16 @@ public class SOSListFragment extends Fragment {
         sosListView.setAdapter(sosAdapter);
     }
 
-    // 获取周围发生的事件
+    // 获取周围发生的事件，并在获取到事件以后将其更新到List视图中
     private boolean getNearbyEvents() {
         String jsonString = "{" +
                 "\"id\":" + user_id +
                 ",\"type\":2" +
                 ",\"state\":0" + "}";
-//        String message = RequestHandler.sendPostRequest(
-//                "http://120.24.208.130:1501/event/get_nearby_event", jsonString);
+        String message = RequestHandler.sendPostRequest(
+                "http://120.24.208.130:1501/event/get_nearby_event", jsonString);
         // 暂时拿一堆假数据做测试
-        String message = "{\"status\": 200, \"event_list\": [{\"comment\": null, \"love_coin\": 0, \"title\": \"helppppppp\", \"event_id\": 292, \"follow_number\": 0, \"support_number\": 0, \"longitude\": 113.394203, \"content\": null, \"state\": 0, \"launcher_id\": 24, \"location\": null, \"time\": \"2015-08-04 16:42:19\", \"latitude\": 23.181321, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-08-04 22:35:40\", \"group_pts\": 0.0}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 291, \"follow_number\": 1, \"support_number\": 0, \"longitude\": 113.394203, \"content\": null, \"state\": 0, \"launcher_id\": 24, \"location\": null, \"time\": \"2015-08-04 15:51:51\", \"latitude\": 23.201321, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-08-04 22:35:40\", \"group_pts\": 0.0}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 241, \"follow_number\": 1, \"support_number\": 0, \"longitude\": 113.394203, \"content\": null, \"state\": 0, \"launcher_id\": 24, \"location\": null, \"time\": \"2015-08-04 15:50:35\", \"latitude\": 23.101321, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-08-04 16:39:25\", \"group_pts\": 0.0}, {\"title\": \"sos\", \"event_id\": 219, \"follow_number\": 0, \"longitude\": 113.399994, \"content\": null, \"state\": 0, \"launcher_id\": 21, \"time\": \"2015-07-31 16:33:21\", \"latitude\": 23.070954, \"type\": 2, \"last_time\": \"2015-07-31 16:33:21\"}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 218, \"follow_number\": 0, \"support_number\": 0, \"longitude\": 113.39359, \"content\": null, \"launcher\": \"18620730866\", \"state\": 0, \"launcher_id\": 21, \"location\": null, \"time\": \"2015-07-31 15:53:33\", \"latitude\": 23.072123, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-07-31 15:53:34\", \"group_pts\": 0.0}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 215, \"follow_number\": 0, \"support_number\": 1, \"longitude\": 113.393558, \"content\": null, \"launcher\": \"18620730866\", \"state\": 0, \"launcher_id\": 21, \"location\": null, \"time\": \"2015-07-31 15:53:15\", \"latitude\": 23.072134, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-07-31 15:53:15\", \"group_pts\": 0.0}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 206, \"follow_number\": 0, \"support_number\": 1, \"longitude\": 113.393559, \"content\": null, \"launcher\": \"18620730866\", \"state\": 0, \"launcher_id\": 21, \"location\": null, \"time\": \"2015-07-31 15:49:08\", \"latitude\": 23.072129, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-07-31 15:49:08\", \"group_pts\": 0.0}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 206, \"follow_number\": 0, \"support_number\": 1, \"longitude\": 113.398225, \"content\": null, \"launcher\": \"18620730866\", \"state\": 0, \"launcher_id\": 21, \"location\": null, \"time\": \"2015-07-31 15:30:25\", \"latitude\": 23.066616, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-07-31 15:30:25\", \"group_pts\": 0.0}]}";
+//        String message = "{\"status\": 200, \"event_list\": [{\"comment\": null, \"love_coin\": 0, \"title\": \"helppppppp\", \"event_id\": 292, \"follow_number\": 0, \"support_number\": 0, \"longitude\": 113.394203, \"content\": null, \"state\": 0, \"launcher_id\": 24, \"location\": null, \"time\": \"2015-08-04 16:42:19\", \"latitude\": 23.181321, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-08-04 22:35:40\", \"group_pts\": 0.0}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 291, \"follow_number\": 1, \"support_number\": 0, \"longitude\": 113.394203, \"content\": null, \"state\": 0, \"launcher_id\": 24, \"location\": null, \"time\": \"2015-08-04 15:51:51\", \"latitude\": 23.201321, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-08-04 22:35:40\", \"group_pts\": 0.0}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 241, \"follow_number\": 1, \"support_number\": 0, \"longitude\": 113.394203, \"content\": null, \"state\": 0, \"launcher_id\": 24, \"location\": null, \"time\": \"2015-08-04 15:50:35\", \"latitude\": 23.101321, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-08-04 16:39:25\", \"group_pts\": 0.0}, {\"title\": \"sos\", \"event_id\": 219, \"follow_number\": 0, \"longitude\": 113.399994, \"content\": null, \"state\": 0, \"launcher_id\": 21, \"time\": \"2015-07-31 16:33:21\", \"latitude\": 23.070954, \"type\": 2, \"last_time\": \"2015-07-31 16:33:21\"}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 218, \"follow_number\": 0, \"support_number\": 0, \"longitude\": 113.39359, \"content\": null, \"launcher\": \"18620730866\", \"state\": 0, \"launcher_id\": 21, \"location\": null, \"time\": \"2015-07-31 15:53:33\", \"latitude\": 23.072123, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-07-31 15:53:34\", \"group_pts\": 0.0}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 215, \"follow_number\": 0, \"support_number\": 1, \"longitude\": 113.393558, \"content\": null, \"launcher\": \"18620730866\", \"state\": 0, \"launcher_id\": 21, \"location\": null, \"time\": \"2015-07-31 15:53:15\", \"latitude\": 23.072134, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-07-31 15:53:15\", \"group_pts\": 0.0}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 206, \"follow_number\": 0, \"support_number\": 1, \"longitude\": 113.393559, \"content\": null, \"launcher\": \"18620730866\", \"state\": 0, \"launcher_id\": 21, \"location\": null, \"time\": \"2015-07-31 15:49:08\", \"latitude\": 23.072129, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-07-31 15:49:08\", \"group_pts\": 0.0}, {\"comment\": null, \"love_coin\": 0, \"title\": \"sos\", \"event_id\": 206, \"follow_number\": 0, \"support_number\": 1, \"longitude\": 113.398225, \"content\": null, \"launcher\": \"18620730866\", \"state\": 0, \"launcher_id\": 21, \"location\": null, \"time\": \"2015-07-31 15:30:25\", \"latitude\": 23.066616, \"demand_number\": 0, \"type\": 2, \"last_time\": \"2015-07-31 15:30:25\", \"group_pts\": 0.0}]}";
         if (message.equals("false")) {
             ((Activity)context).runOnUiThread(new Runnable() {
                 @Override
@@ -148,6 +160,7 @@ public class SOSListFragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
                 }
             });
+            return false;
         } else {
             try {
                 JSONObject jO = new JSONObject(message);
@@ -164,6 +177,7 @@ public class SOSListFragment extends Fragment {
                 String jsonStringList = jO.getString("event_list");
                 events = gson.fromJson(jsonStringList, new TypeToken<List<Event>>(){}
                         .getType());
+
                 // 等待事件获取成功以后再使用其重新初始化Adapter
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
@@ -171,6 +185,7 @@ public class SOSListFragment extends Fragment {
                         initialRecyclerAdapter();
                     }
                 });
+
                 return true;
             } catch (JSONException e) {
                 e.printStackTrace();

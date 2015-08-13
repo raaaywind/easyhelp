@@ -28,4 +28,5 @@
     <string name="title_activity_question_receive">QuestionReceiveActivity</string>
     <string name="title_activity_setting_menu">SettingMenuActivity</string>
     <string name="title_activity_account_reset">AccountResetActivity</string>
+    <string name="title_activity_answer_send">AnswerSendActivity</string>
 </resources>

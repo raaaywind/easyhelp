@@ -4,7 +4,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/event_list_item"
-    android:clickable="false"
+    android:clickable="true"
     android:background="@color/divider"
     android:paddingBottom="1dp">
 
@@ -65,7 +65,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/event_title"
+            android:id="@+id/event_title_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="42dp"
