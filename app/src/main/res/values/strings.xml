@@ -28,4 +28,11 @@
     <string name="title_activity_question_receive">QuestionReceiveActivity</string>
     <string name="title_activity_setting_menu">SettingMenuActivity</string>
     <string name="title_activity_account_reset">AccountResetActivity</string>
+
+    <string name="mes_accept_push_or_not">是否接受推送消息</string>
+    <string name="mes_privacy_setting">隐私设置</string>
+    <string name="mes_account_safe">账户与安全</string>
+    <string name="mes_version_update">版本更新</string>
+    <string name="mes_about_us">关于我们</string>
+    <string name="mes_exit">退出登录</string>
 </resources>

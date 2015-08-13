@@ -1,12 +1,195 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.team1.easyhelp.setting.SettingMenuActivity">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#ddd"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                android:clickable="true"
+                android:background="@drawable/ic_preference_normal"
+                android:gravity="center_vertical"
+                android:id="@+id/setting_push">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="是否接送推送信息"
+                    android:textIsSelectable="true"
+                    android:textSize="18dp"
+                    android:id="@+id/setting_push1"
+                    android:autoText="false"
+                    android:textColor="#ff565656" />
+                <!--<com.ehelp.user.setting.SlipButton-->
+                    <!--android:layout_width="60dip"-->
+                    <!--android:layout_height="25dip"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_marginBottom="8dip"-->
+                    <!--android:layout_marginTop="8dip"-->
+                    <!--android:id="@+id/accept_push_or_not"/>-->
+            </RelativeLayout>
+            <View
+                android:layout_marginLeft="20dp"
+                android:layout_height="1dp"
+                android:layout_width="fill_parent"
+                android:background="#ddd"/>
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:clickable="true"
+                android:background="@drawable/preference_item"
+                android:gravity="center_vertical"
+                android:id="@+id/setting_privacy">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="@string/mes_privacy_setting"
+                    android:id="@+id/setting_privacy1"
+                    android:textSize="18dp"
+                    android:textIsSelectable="false"
+                    android:textColor="#ff565656" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:clickable="true"
+                    android:src="@drawable/mm_submenu" />
+            </RelativeLayout>
+            <View
+                android:layout_height="1dp"
+                android:layout_width="fill_parent"
+                android:background="#ddd"
+                android:layout_marginLeft="20dp"/>
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:clickable="true"
+                android:background="@drawable/preference_item"
+                android:gravity="center_vertical"
+                android:id="@+id/setting_accountsafe"
+                android:onClick="Accountsafe_page_click">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="@string/mes_account_safe"
+                    android:textSize="18dp"
+                    android:id="@+id/setting_accountsafe1"
+                    android:textColor="#ff565656" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:clickable="true"
+                    android:src="@drawable/mm_submenu" />
+            </RelativeLayout>
+            <View
+                android:layout_height="1dp"
+                android:layout_width="fill_parent"
+                android:background="#ddd"
+                android:layout_marginLeft="20dp"/>
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:clickable="true"
+                android:background="@drawable/preference_item"
+                android:gravity="center_vertical"
+                android:id="@+id/setting_version">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="@string/mes_version_update"
+                    android:id="@+id/setting_version1"
+                    android:textSize="18dp"
+                    android:textIsSelectable="false"
+                    android:textColor="#ff565656" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:clickable="true"
+                    android:src="@drawable/mm_submenu" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:clickable="true"
+                android:background="@drawable/preference_item"
+                android:layout_marginTop="25dp"
+                android:gravity="center_vertical"
+                android:id="@+id/setting_aboutus">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="@string/mes_about_us"
+                    android:textSize="18dp"
+                    android:id="@+id/..."
+                    android:textColor="#ff565656" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:clickable="true"
+                    android:src="@drawable/mm_submenu" />
+            </RelativeLayout>
+            <View
+                android:layout_height="1dp"
+                android:layout_width="fill_parent"
+                android:background="#ddd"
+                android:layout_marginLeft="20dp"/>
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:clickable="true"
+                android:background="@drawable/preference_item"
+                android:gravity="center_vertical"
+                android:id="@+id/setting_exit"
+                android:onClick="exit_click">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:text="@string/mes_exit"
+                    android:id="@+id/setting_exit1"
+                    android:textSize="18dp"
+                    android:textColor="#ff565656" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="matrix"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:clickable="true"
+                    android:src="@drawable/mm_submenu" />
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
