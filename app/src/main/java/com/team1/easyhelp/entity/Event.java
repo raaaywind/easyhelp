@@ -26,6 +26,11 @@ public class Event implements Serializable {
     private int demand_number;
     private int love_coin;
     private String comment;
+    private Bitmap portrait;
+
+    public void setPortrait(Bitmap portrait) {
+        this.portrait = portrait;
+    }
 
 
     public void setFollow_number(int follow_number) {
@@ -162,4 +167,7 @@ public class Event implements Serializable {
         return comment;
     }
 
+    public Bitmap getPortrait() {
+        return portrait;
+    }
 }
