@@ -68,7 +68,7 @@ public class EventAdapter extends RecyclerView.Adapter {
         } else {
             holder.nicknameTv.setText(event.getLauncher());
         }
-        holder.avatarTv.setImageBitmap(event.getPortrait());
+        //holder.avatarTv.setImageBitmap(event.getPortrait());
         holder.dateTv.setText(event.getTime());
         holder.coinTv.setText("爱心币: " + Integer.toString(event.getLove_coin()));
         holder.titleTv.setText(event.getTitle());

@@ -2,6 +2,7 @@ package com.team1.easyhelp.home.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.content.Intent;
@@ -200,8 +201,7 @@ public class SOSListFragment extends Fragment {
                 String jsonStringList = jO.getString("event_list");
                 events = gson.fromJson(jsonStringList, new TypeToken<List<Event>>(){}
                         .getType());
-                setPortrait();
-
+//                setPortrait();
                 // 等待事件获取成功以后再使用其重新初始化Adapter
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
@@ -277,8 +277,14 @@ public class SOSListFragment extends Fragment {
         // 设置列表中item点击后的触发事件
         @Override
         public void onItemClick(int position) {
-            Toast.makeText(context, "位置" + position,
-                    Toast.LENGTH_SHORT).show();
+            Event tmp = events.get(position);
+            Intent intent = new Intent(context,
+                    SOSReceiveMapActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("event", tmp);
+            intent.putExtras(bundle);
+
+            context.startActivity(intent);
         }
 
         // 设置列表中item长按后的触发事件
